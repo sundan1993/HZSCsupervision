@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>消控地图</title>
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	<link rel="stylesheet" type="text/css" href="css/map.css"/>
+</head>
+<body>
+	<div id="banner"></div>
+	<div id="top-nav">
+		<div class="Rw">
+			<img src="img/logo.png"/>
+			<ul class="top-nav__list Fr">
+				<li><a href="#">公司简介</a></li>
+				<li><a href="#">新闻发布</a></li>
+				<li><a href="#" class="act">消控地图</a></li>
+				<li><a href="#">监控平台</a></li>
+				<li><a href="#">三轮车管理</a></li>
+				<li><a href="#">员工登陆</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="Rw">
+		<ul id="left-nav" class="Pa">
+			<li class="left-nav__item act">
+				<a href="#" class="Pr">
+					A楼消防设备
+					<i class="iconfont Pa">&#xe640;</i>
+				</a>
+				<ul class="left-nav__item__list">
+					<li><a href="#" class="act">#1消防设备</a></li>
+					<li><a href="#">#2消防设备</a></li>
+					<li><a href="#">#3消防设备</a></li>
+				</ul>
+			</li>
+			<li class="left-nav__item">
+				<a href="#" class="Pr">
+					B楼消防设备
+					<i class="iconfont Pa">&#xe640;</i>
+				</a>
+				<ul class="left-nav__item__list">
+					<li><a href="#" class="act">#1消防设备</a></li>
+					<li><a href="#">#2消防设备</a></li>
+					<li><a href="#">#3消防设备</a></li>
+				</ul>
+			</li>
+			<li class="left-nav__item">
+				<a href="#" class="Pr">
+					C楼消防设备
+					<i class="iconfont Pa">&#xe640;</i>
+				</a>
+				<ul class="left-nav__item__list">
+					<li><a href="#" class="act">#1消防设备</a></li>
+					<li><a href="#">#2消防设备</a></li>
+					<li><a href="#">#3消防设备</a></li>
+				</ul>
+			</li>
+			<li class="left-nav__item">
+				<a href="#" class="Pr">
+					结算中心消防设备
+					<i class="iconfont Pa">&#xe640;</i>
+				</a>
+				<ul class="left-nav__item__list">
+					<li><a href="#" class="act">#1消防设备</a></li>
+					<li><a href="#">#2消防设备</a></li>
+					<li><a href="#">#3消防设备</a></li>
+				</ul>
+			</li>
+			<li class="left-nav__item">
+				<a href="#" class="Pr">
+					1＃大消防设备
+					<i class="iconfont Pa">&#xe640;</i>
+				</a>
+				<ul class="left-nav__item__list">
+					<li><a href="#" class="act">#1消防设备</a></li>
+					<li><a href="#">#2消防设备</a></li>
+					<li><a href="#">#3消防设备</a></li>
+				</ul>
+			</li>
+			<li class="left-nav__item">
+				<a href="#" class="Pr">
+					2＃大消防设备
+					<i class="iconfont Pa">&#xe640;</i>
+				</a>
+				<ul class="left-nav__item__list">
+					<li><a href="#" class="act">#1消防设备</a></li>
+					<li><a href="#">#2消防设备</a></li>
+					<li><a href="#">#3消防设备</a></li>
+				</ul>
+			</li>
+			<li class="left-nav__item">
+				<a href="#" class="Pr">
+					3＃大消防设备
+					<i class="iconfont Pa">&#xe640;</i>
+				</a>
+				<ul class="left-nav__item__list">
+					<li><a href="#" class="act">#1消防设备</a></li>
+					<li><a href="#">#2消防设备</a></li>
+					<li><a href="#">#3消防设备</a></li>
+				</ul>
+			</li>
+			<li class="left-nav__item">
+				<a href="#" class="Pr">
+					4＃大消防设备
+					<i class="iconfont Pa">&#xe640;</i>
+				</a>
+				<ul class="left-nav__item__list">
+					<li><a href="#" class="act">#1消防设备</a></li>
+					<li><a href="#">#2消防设备</a></li>
+					<li><a href="#">#3消防设备</a></li>
+				</ul>
+			</li>
+		</ul>
+		
+		<div class="map map-floor">
+			<div class="map__top">
+				<span class="map__top__name"><i>A楼#1</i> 消防设备</span>
+				<div class="map__top__filter Fr">
+					<span class="map__top__filter__total">
+						共有XX个设备：有效XX个，未检XX个，失效XX个
+					</span>
+					<span class="map__top__filter__btn act" data-type="hydrant">
+						<i class="iconfont">&#xe63f;</i>
+						消防拴
+					</span>
+					<span class="map__top__filter__btn act" data-type="water-pump">
+						<i class="iconfont">&#xe641;</i>
+						水泵
+					</span>
+					<span class="map__top__filter__btn act" data-type="camera">
+						<i class="iconfont">&#xe63e;</i>
+						摄像头
+					</span>
+				</div>
+			</div>
+			
+			<div class="map__body Pr">
+				<img src="img/map1.png" class="map__body__bg"/>
+				<i class="iconfont Pa map__icon map__icon__hydrant undetected" style="top: 30px; left: 30px;" data-message='{"name":"＃151号消防拴","validTime":1562725272000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe63f;</i>
+				<i class="iconfont Pa map__icon map__icon__water-pump invalid" style="top: 230px; left: 500px;" data-message='{"name":"＃151号消防拴","validTime":1460970864000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe641;</i>
+				<i class="iconfont Pa map__icon map__icon__camera" style="top: 400px; left: 780px;" data-message='{"name":"＃151号消防拴","validTime":1562725272000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe63e;</i>
+				<i class="iconfont Pa map__icon map__icon__hydrant" style="top: 90px; left: 30px;" data-message='{"name":"＃151号消防拴","validTime":1562725272000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe63f;</i>
+				<i class="iconfont Pa map__icon map__icon__water-pump" style="top: 290px; left: 680px;" data-message='{"name":"＃151号消防拴","validTime":1460970864000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe641;</i>
+				<i class="iconfont Pa map__icon map__icon__camera" style="top: 100px; left: 80px;" data-message='{"name":"＃151号消防拴","validTime":1562725272000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe63e;</i>
+				<i class="iconfont Pa map__icon map__icon__hydrantd" style="top: 88px; left: 500px;" data-message='{"name":"＃151号消防拴","validTime":1562725272000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe63f;</i>
+				<i class="iconfont Pa map__icon map__icon__water-pump" style="top: 210px; left: 69px;" data-message='{"name":"＃151号消防拴","validTime":1460970864000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe641;</i>
+				<i class="iconfont Pa map__icon map__icon__camera" style="top: 358px; left: 70px;" data-message='{"name":"＃151号消防拴","validTime":1562725272000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe63e;</i>
+				<i class="iconfont Pa map__icon map__icon__hydrant" style="top: 326px; left: 250px;" data-message='{"name":"＃151号消防拴","validTime":1562725272000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe63f;</i>
+				<i class="iconfont Pa map__icon map__icon__water-pump invalid" style="top: 23px; left: 760px;" data-message='{"name":"＃151号消防拴","validTime":1460970864000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe641;</i>
+				<i class="iconfont Pa map__icon map__icon__camera" style="top: 70px; left: 435px;" data-message='{"name":"＃151号消防拴","validTime":1562725272000,"duty":"李大纲","check":"黄小鱼，李建","lastTime":1492497471604, "lastCheck":"李建", "type": "hydrant"}'>&#xe63e;</i>
+			</div>
+		</div>
+		
+		
+	</div>
+
+<script src="libs/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="plugins/layer-v3.0.3/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	//根据时间戳获取时间
+	function format(timestamp){
+		var time = new Date(timestamp);
+		var y = time.getFullYear();
+		var m = time.getMonth()+1;
+		var d = time.getDate();
+		var h = time.getHours();
+		var mm = time.getMinutes();
+		var s = time.getSeconds();
+		return y + '年' + (m + 1) + '月' + d + '日';
+	}
+
+	$('.map__icon').mouseover(function(){
+		var msg = $(this).data('message');
+		var lastTime = new Date(msg.lastTime) || null, checker = msg.lastCheck || null;
+		if(lastTime){
+			lastTime = format(lastTime);
+			var str = checker + '在' + lastTime +'检查' ;
+		} else{
+			var str = '该设备还未被检测';
+		}
+
+		layer.tips(str, $(this), {
+			tips: [1, '#666'] //还可配置颜色
+		});
+	})
+
+	$('.map__icon').click(function(){
+		var msg = $(this).data('message');
+		var lastTime = new Date(msg.lastTime) || '', checker = msg.check || '', duty = msg.duty || '', name = msg.name, validTime = new Date(msg.validTime), type = msg.type;
+		lastTime = format(lastTime);
+		validTime = format(validTime);
+		var imgUrl;
+		switch(type){
+		case 'hydrant':
+			imgUrl = './img/hydrant.jpg'
+			break;
+		}
+		var layerHtml;
+		layerHtml = '<img src = ' + imgUrl + ' class="Pa">' +
+					'<ul class="details">' +
+						'<li><h3>' + name + '</h3></li>' +
+						'<li>有效期：<i>' + validTime + '</i></li>' +
+						'<li>负责人：<i>' + duty + '</i></li>' +
+						'<li>检查人：<i>' + checker + '</i></li>' +
+						'<li>最后检查时间：<i>' + lastTime + '</i></li>' +
+					'</ul>';
+		layer.open({
+			type: 1,
+			skin: 'layui-layer-demo', //样式类名
+			scrollbar: false,
+			maxWidth: 600,
+			title: false,
+			anim: 2,
+			shadeClose: true, //开启遮罩关闭
+			content: layerHtml
+		});
+	})
+	
+	/**	
+	 * getTotal获取设备总数
+	 **/
+	function getTotal(){
+		var total = $('.map__icon:visible').length;
+		var undetected = $('.map__icon.undetected:visible').length;
+		var invalid = $('.map__icon.invalid:visible').length;
+		var str = '共有' + total + '个设备：有效' + (total - undetected - invalid) + '个，未检' + undetected + '个，失效' + invalid + '个';
+		$('.map__top__filter__total').html(str);
+	}
+	getTotal();
+
+	$('.map__top__filter__btn').click(function(){
+		var type = $(this).data('type');
+		$(this).toggleClass('act');
+		$('.map__icon__' + type).toggleClass('hide');
+		getTotal();
+	})
+</script>
+</body>
+</html>

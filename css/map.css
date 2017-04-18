@@ -1,0 +1,113 @@
+/*左侧导航*/
+#left-nav{
+	width: 188px;
+	background-color: #f8f8f8;
+	border: solid 1px #e1e1e1;
+	overflow: hidden;
+}
+.left-nav__item.act{
+	background-image: linear-gradient(to right, #08c552, #14cb9d);
+}
+.left-nav__item.act a{
+	color: #fff;
+}
+.left-nav__item a{
+	box-sizing: border-box;
+	display: inline-block;
+	width: 100%;
+	line-height: 56px;
+	color: #666;
+	padding: 0 20px;
+}
+.left-nav__item a .Pa{
+	right: 20px;
+}
+.left-nav__item__list {
+	background-color: #ffffff;
+	padding: 20px;
+	display: none;
+}
+.left-nav__item.act .left-nav__item__list{
+	display: block;
+}
+.left-nav__item .left-nav__item__list a{
+	color: #333;
+	font-size: 12px;
+	line-height: 24px;
+}
+.left-nav__item .left-nav__item__list .act{
+	color: #08C552;
+}
+
+/*地图*/
+.map{
+	margin-left: 190px;
+	font-size: 12px;
+}
+.map__top{
+	line-height: 56px;
+	padding: 0 20px;
+	background-color: #eeeeee;
+}
+.map__top__name i{
+	color: #08C552;
+}
+.map__top__filter__btn.act{
+	background-color: #e6f9ed;
+}
+.map__top__filter__btn{
+	cursor: pointer;
+	display: inline-block;
+	width: 100px;
+	line-height: 30px;
+	border-radius: 15px;
+	border: solid 1px #08c552;
+	text-align: center;
+	margin-left: 10px;
+	background-color:#fff;
+}
+.map__top__filter__btn .iconfont{
+	color: #188bf6;
+}
+.map__body{
+	margin: 20px;
+}
+.map__body__bg{
+	width: 100%;
+}
+.map__icon{
+	color: #188bf6;
+	cursor: pointer;
+}
+.map__icon.undetected{
+	color: #febd01;
+}
+.map__icon.invalid{
+	color: #ea4235;
+}
+.map__icon.hide{
+	display: none;
+}
+.layui-layer-content{
+	padding: 20px;
+}
+.details{
+	margin-left: 160px;
+	min-height: 140px;
+	font-size: 12px;
+	color: #999;
+	line-height: 22px;
+}
+.details img.Pa{
+	width: 140px;
+	height: 140px;
+}
+.details h3{
+	color: #333;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 50px;
+}
+.details li i{
+	color: #333;
+}

@@ -11,18 +11,31 @@
 	font-size: 14px;
 	transition: all .2s;-webkit-transition: all .2s;-moz-transition: all .2s;-o-transition: all .2s;
 }
-.map-market__item.invalid{
-	background: #f4cac7;
-}
 .map-market__item:hover{
 	background: #9ce8ba;
 }
 .map-market__item:hover .map-market__item__link{
 	opacity: 1;
 }
+.map-market__item.undetected{
+	background: #ffe599;
+}
+.map-market__item.undetected .map-market__item__link{
+	border: 1px solid #febd01;
+}
+.map-market__item.undetected:hover{
+	background: #fed767;
+}
+.map-market__item.invalid{
+	background: #f4cac7;
+}
+.map-market__item.invalid .map-market__item__link{
+	border: 1px solid #ea4235;
+}
 .map-market__item.invalid:hover{
 	background: #f4a09a;
 }
+
 .map-market__item__link{
 	display: inline-block;
 	line-height: 30px;
@@ -34,6 +47,19 @@
 	margin-top: 10px;
 	opacity: 0;
 	transition: all .2s;-webkit-transition: all .2s;-moz-transition: all .2s;-o-transition: all .2s;
+}
+.map-market__item__num{
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	font-size: 12px;
+}
+
+.map-market__item.undetected .map-market__item__num{
+	color: #333;
+}
+.map-market__item.invalid .map-market__item__num{
+	color: #ea4235;
 }
 .map-market__item1{
 	padding-top: 30px;

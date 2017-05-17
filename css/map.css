@@ -17,6 +17,7 @@
 #left-nav .notes .iconfont{
 	font-size: 14px;
 	vertical-align: 1px;
+	margin-right: 10px;
 }
 .left-nav__item.act{
 	background-image: linear-gradient(to right, #08c552, #14cb9d);

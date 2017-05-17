@@ -28,12 +28,19 @@ $(function(){
 
 	$('.map__icon').click(function(){
 		var msg = $(this).data('message');
-		var lastTime = new Date(msg.lastTime) || '', checker = msg.check || '', duty = msg.duty || '', name = msg.name, validTime = new Date(msg.validTime), type = msg.type;
+		var lastTime = new Date(msg.lastTime) || '', 
+		checker = msg.check || '', duty = msg.duty || '', 
+		name = msg.name, validTime = new Date(msg.validTime), 
+		type = msg.type;
+		
 		lastTime = format(lastTime);
 		validTime = format(validTime);
 		var imgUrl;
 		switch(type){
-		case 'hydrant':
+		case '3':
+			imgUrl = './img/hydrant.jpg'
+			break;
+		case '5':
 			imgUrl = './img/hydrant.jpg'
 			break;
 		}

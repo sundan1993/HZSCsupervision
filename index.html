@@ -151,7 +151,7 @@
 			</div>
 			
 			<div class="map__body Pr">
-				<img src="img/map2.png" class="map__body__bg"/>
+				<img src="img/map2.png" class="map__body__bg" id="map"/>
 
 				<div class="map-market Pa">
 					<div class="map-market__item map-market__item1">
@@ -291,7 +291,7 @@
 	})
 
 </script>
-<script src="./js/page/common/scroll.js"></script>
+<script src="./js/page/common/position.js"></script>
 <script>
 var size=function(){
 	var scroll=$(window).scrollTop();//当前滚动条滚动的距离
@@ -307,6 +307,10 @@ var size=function(){
 }
 size();
 $(window).bind('resize scroll',size);
+
+$('#map').click(function(event){
+	$.position('map',event);
+})
 </script>
 </body>
 </html>

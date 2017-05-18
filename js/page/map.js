@@ -37,7 +37,16 @@ $(function(){
 		validTime = format(validTime);
 		var imgUrl;
 		switch(type){
+		case '1':
+			imgUrl = './img/hydrant.jpg'
+			break;
+		case '2':
+			imgUrl = './img/hydrant.jpg'
+			break;
 		case '3':
+			imgUrl = './img/hydrant.jpg'
+			break;
+		case '4':
 			imgUrl = './img/hydrant.jpg'
 			break;
 		case '5':

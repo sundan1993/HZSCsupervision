@@ -100,7 +100,7 @@ function assemblyFloorDetail(data){
 	html += '<img src="' + floor.parameter + '" class="map__body__bg" id="map"/>';
 
 	$.each(material, function(i, item){
-		html += '<i class="iconfont Pa map__icon map__icon__2 invalid" style="left: 677px; top: 106px" data-message='{"name":"＃1号手提式灭火器","validTime":1562725272000,"duty":"王卫东","check":"汪树松，季必成","lastTime":1492497471604, "lastCheck":"汪树松，季必成", "type": "2"}'>&#xe7b5;</i>';
+		// html += '<i class="iconfont Pa map__icon map__icon__2 invalid" style="left: 677px; top: 106px" data-message='{"name":"＃1号手提式灭火器","validTime":1562725272000,"duty":"王卫东","check":"汪树松，季必成","lastTime":1492497471604, "lastCheck":"汪树松，季必成", "type": "2"}'>&#xe7b5;</i>';
 	})
 	$('.map__body').html(html);
 }

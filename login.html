@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>消控地图</title>
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+<body>
+	<div id="banner"></div>
+	<div id="top-nav">
+		<div class="Rw">
+			<img src="img/logo.png"/>
+			<ul class="top-nav__list Fr">
+				<li><a href="#">公司简介</a></li>
+				<li><a href="#">新闻发布</a></li>
+				<li><a href="#">消控地图</a></li>
+				<li><a href="http://192.168.10.10">监控平台</a></li>
+				<li><a href="#">三轮车管理</a></li>
+				<li><a href="#" class="act">员工登陆</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="Rw">
+		<section id="login-box">
+			<form>
+				<h1 class='form-title'>用户登录</h1>
+				<input id='username' class='form-control' type='text' placeholder="账号"/>
+				<input id='userpassword' class='form-control' type='password' placeholder="密码"/>
+				<button class='form-btn' onclick='dologin();'>登录按钮</button>
+
+				<select class="form-control">
+					<option value="请选择">请选择</option>
+				</select>
+			</form>
+		</section>
+	</div>
+
+<script src="libs/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="plugins/layer-v3.0.3/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

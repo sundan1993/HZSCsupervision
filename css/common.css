@@ -17,7 +17,6 @@
 }
 
 /*初始化样式*/
-
 body, button, dd, dl, dt, form, h1, h2, h3, h4, h5, h6, hr, input, li, ol, p, pre, textarea, table, tbody, td, th, ul {
 	margin: 0;
 	padding: 0;
@@ -186,3 +185,59 @@ textarea[readonly]:focus, input[readonly]:focus, select[readonly]:focus {
 	top: 0;
 	z-index: 10;
 }
+/*左侧导航*/
+#left-nav{
+	width: 188px;
+	background-color: #f8f8f8;
+	border: solid 1px #e1e1e1;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	left: 0
+}
+#left-nav .notes{
+	border-top: 1px solid #e1e1e1;
+	padding: 20px;
+	background: #e6f9ed;
+	line-height: 30px;
+	color: #666
+}
+#left-nav .notes .iconfont{
+	font-size: 18px;
+	/*vertical-align: 1px;*/
+	margin-right: 10px;
+}
+.left-nav__item.act{
+	background-image: linear-gradient(to right, #08c552, #14cb9d);
+}
+.left-nav__item.act a{
+	color: #fff;
+}
+.left-nav__item a{
+	box-sizing: border-box;
+	display: inline-block;
+	width: 100%;
+	line-height: 56px;
+	color: #666;
+	padding: 0 20px;
+}
+.left-nav__item a .Pa{
+	right: 20px;
+}
+.left-nav__item__list {
+	background-color: #ffffff;
+	padding: 20px;
+	display: none;
+}
+.left-nav__item.act .left-nav__item__list{
+	display: block;
+}
+.left-nav__item .left-nav__item__list a{
+	color: #333;
+	font-size: 12px;
+	line-height: 24px;
+}
+.left-nav__item .left-nav__item__list .act{
+	color: #08C552;
+}
+

@@ -1,0 +1,50 @@
+#banner{
+	height: 200px;
+}
+
+#login-box{
+	position: absolute;
+	width: 500px;
+	background: #fff;
+	top: 50px;
+	left: 50%;
+	margin-left: -250px;
+	border-top: 1px solid #08C552;
+}
+form{
+	padding: 50px 80px 80px;
+}
+input.form-control{
+	/*padding: 10px 20px;*/
+	height: 40px;
+	box-sizing: border-box;
+	width: 100%;
+	margin-top: 20px;
+}
+select.form-control{
+	box-sizing: border-box;
+	width: 100%;
+	margin-top: 20px;
+	border: 1px solid #ddd;
+	padding: 10px 12px;
+}
+select.form-control option{
+	line-height: 30px;
+	height: 30px;
+	padding: 50px 0;
+}
+.form-title{
+	font-size: 24px;
+	text-align: center;
+}
+.form-btn{
+	background-image: linear-gradient(to right, #08c552, #14cb9d);
+	width: 100%;
+	line-height: 40px;
+	display: block;
+	margin-top: 20px;
+	text-align: center;
+	font-size: 14px;
+	color: #fff;
+	cursor: pointer;
+}

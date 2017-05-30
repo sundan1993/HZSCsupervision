@@ -53,7 +53,7 @@ function assemblyLeftNav(data){
 $('#left-nav').on('click', 'a', function(e){
 	e.preventDefault();
 	var $target = $(e.target), $parent = $target.parent();
-	if ($target.hasClass('act')) return; //防止频繁发送请求
+	// if ($target.hasClass('act')) return; //防止频繁发送请求
 
 	if ($parent.hasClass('left-nav__item')){ //当选择父级菜单时,若有子菜单，则重定向至第一个子级
 		var $child = $parent.find('.left-nav__item__list li');
@@ -81,6 +81,7 @@ function getFloorDetail(floorid){
 		success: function(data){
 			if (data.message == 'success'){
 				assemblyFloorDetail(data.data);
+				console.log('开始拼装楼层数据')
 			}
 		},
 		error:function(){
@@ -100,7 +101,114 @@ function assemblyFloorDetail(data){
 	html += '<img src="' + floor.parameter + '" class="map__body__bg" id="map"/>';
 
 	$.each(material, function(i, item){
-		// html += '<i class="iconfont Pa map__icon map__icon__2 invalid" style="left: 677px; top: 106px" data-message='{"name":"＃1号手提式灭火器","validTime":1562725272000,"duty":"王卫东","check":"汪树松，季必成","lastTime":1492497471604, "lastCheck":"汪树松，季必成", "type": "2"}'>&#xe7b5;</i>';
+		var info = '{"name":"' + item.name + '","validTime":' + item.validTime + ',"duty":"' + item.duty + '","check":"' + item.check_name + '","lastTime":"' + item.lastTime + '", "lastCheck":"' + item.check_name + '", "type": "' + item.type + '"}',
+			className = 'iconfont Pa map__icon map__icon__' + item.type,
+			style = 'left: ' + item.xposition + '; top: ' + item.yposition;
+			icon = getIcon(item.type);
+		if(!item.ifchecked) className += ' undetected';
+		if(!item.ifvalid) className += ' invalid';
+		// html +='<i class="' + className + '" style="' + style + '" data-message="' + info + '">' + icon + '</i>';
+		html +="<i class='" + className + "' style='" + style + "' data-message='" + info + "'>" + icon + "</i>";
+		// html += '<i class="iconfont Pa map__icon map__icon__' + item.type + ' invalid" style="left: 677px; top: 106px" data-message='{"name":"＃1号手提式灭火器","validTime":1562725272000,"duty":"王卫东","check":"汪树松，季必成","lastTime":1492497471604, "lastCheck":"汪树松，季必成", "type": "2"}'>&#xe7b5;</i>';
 	})
 	$('.map__body').html(html);
 }
+
+/**
+ * 获取对应的iconfont图标
+ * @param type 图标类型
+ */
+function getIcon(type){
+	switch(+type){
+	case 1:
+		return '&#xe673;';
+		break;
+	case 2:
+		return '&#xe7b5;';
+		break;
+	case 3:
+		return '&#xe63f;';
+		break;
+	case 4:
+		return '&#xe61a;';
+		break;
+	case 5:
+		return '&#xe726;';
+		break;
+	}
+}
+
+//根据时间戳获取时间
+function format(timestamp){
+	var time = new Date(timestamp);
+	var y = time.getFullYear();
+	var m = time.getMonth()+1;
+	var d = time.getDate();
+	var h = time.getHours();
+	var mm = time.getMinutes();
+	var s = time.getSeconds();
+	return y + '年' + (m + 1) + '月' + d + '日';
+}
+
+$('.map').on('mouseover','.map__icon',function(){
+	var msg = $(this).data('message');
+	var lastTime = msg.lastTime || null, checker = msg.lastCheck || null;
+	if(lastTime){
+		var str = checker + '在' + lastTime +'检查' ;
+	} else{
+		var str = '该设备还未被检测';
+	}
+
+	layer.tips(str, $(this), {
+		tips: [1, '#666'] //还可配置颜色
+	});
+})
+
+$('.map').on('click','.map__icon',function(){
+	var msg = $(this).data('message');
+	var lastTime = msg.lastTime || '', 
+	checker = msg.check || '', duty = msg.duty || '', 
+	name = msg.name, validTime = new Date(msg.validTime), 
+	type = msg.type;
+	
+	lastTime = lastTime;
+	validTime = format(validTime);
+	var imgUrl;
+	switch(type){
+	case '1':
+		imgUrl = './img/hydrant.jpg'
+		break;
+	case '2':
+		imgUrl = './img/hydrant.jpg'
+		break;
+	case '3':
+		imgUrl = './img/hydrant.jpg'
+		break;
+	case '4':
+		imgUrl = './img/hydrant.jpg'
+		break;
+	case '5':
+		imgUrl = './img/hydrant.jpg'
+		break;
+	}
+	var layerHtml;
+	layerHtml = '<img src = ' + imgUrl + ' class="Pa">' +
+				'<ul class="details">' +
+					'<li><h3>' + name + '</h3></li>' +
+					'<li>有效期：<i>' + validTime + '</i></li>' +
+					'<li>负责人：<i>' + duty + '</i></li>' +
+					'<li>检查人：<i>' + checker + '</i></li>' +
+					'<li>最后检查时间：<i>' + lastTime + '</i></li>' +
+				'</ul>';
+	layer.open({
+		type: 1,
+		skin: 'layui-layer-demo', //样式类名
+		scrollbar: false,
+		maxWidth: 600,
+		title: false,
+		offset: '40%',
+		anim: 2,
+		shadeClose: true, //开启遮罩关闭
+		content: layerHtml
+	});
+})

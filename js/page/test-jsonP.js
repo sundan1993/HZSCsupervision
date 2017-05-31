@@ -107,9 +107,7 @@ function assemblyFloorDetail(data){
 			icon = getIcon(item.type);
 		if(!item.ifchecked) className += ' undetected';
 		if(!item.ifvalid) className += ' invalid';
-		// html +='<i class="' + className + '" style="' + style + '" data-message="' + info + '">' + icon + '</i>';
 		html +="<i class='" + className + "' style='" + style + "' data-message='" + info + "'>" + icon + "</i>";
-		// html += '<i class="iconfont Pa map__icon map__icon__' + item.type + ' invalid" style="left: 677px; top: 106px" data-message='{"name":"＃1号手提式灭火器","validTime":1562725272000,"duty":"王卫东","check":"汪树松，季必成","lastTime":1492497471604, "lastCheck":"汪树松，季必成", "type": "2"}'>&#xe7b5;</i>';
 	})
 	$('.map__body').html(html);
 }

@@ -237,7 +237,7 @@ textarea[readonly]:focus, input[readonly]:focus, select[readonly]:focus {
 	font-size: 12px;
 	line-height: 24px;
 }
-.left-nav__item .left-nav__item__list .act{
+.left-nav__item .left-nav__item__list .act, .left-nav__item .left-nav__item__list .act a{
 	color: #08C552;
 }
 

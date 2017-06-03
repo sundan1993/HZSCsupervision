@@ -25,7 +25,7 @@ function assemblyLeftNav(data){
 	$.each(data, function(i, item){
 		if (i == 0){	//第一层默认被选中
 			html += '<li class="left-nav__item act">'+
-					'<a href="#" class="Pr act" id="' + item.floorid + '">' + item.name;
+					'<a href="#" class="Pr" id="' + item.floorid + '">' + item.name;
 		} else {
 			html += '<li class="left-nav__item">'+
 					'<a href="#" class="Pr" id="' + item.floorid + '">' + item.name;
@@ -36,7 +36,7 @@ function assemblyLeftNav(data){
 			html += '<ul class="left-nav__item__list">';
 			$.each(item.son, function(i, item){
 				if (i == 0){	//第一层默认被选中
-					html += '<li><a href="#" id="' + item.floorid + '" class="act">' + item.name + '</a></li>'
+					html += '<li class="act"><a href="#" id="' + item.floorid + '">' + item.name + '</a></li>'
 				} else {
 					html += '<li><a href="#" id="' + item.floorid + '">' + item.name + '</a></li>'
 				}
@@ -53,17 +53,23 @@ function assemblyLeftNav(data){
 $('#left-nav').on('click', 'a', function(e){
 	e.preventDefault();
 	var $target = $(e.target), $parent = $target.parent();
-	// if ($target.hasClass('act')) return; //防止频繁发送请求
+	if ($parent.hasClass('act')) return; //防止频繁发送请求
 
 	if ($parent.hasClass('left-nav__item')){ //当选择父级菜单时,若有子菜单，则重定向至第一个子级
+		$parent.addClass('act').siblings().removeClass('act');
 		var $child = $parent.find('.left-nav__item__list li');
 		if ($child){
+			$child.eq(0).addClass('act').siblings().removeClass('act');
 			$target = $child.eq(0).children();
 		}
+	} else { //选择子菜单时
+		$parent.addClass('act').siblings().removeClass('act');
 	}
 
 	var id = $target.attr('id');
+	var name = $target.text();
 	getFloorDetail(id);
+	updateCrumbs(name);
 });
 
 /**
@@ -100,23 +106,30 @@ function assemblyFloorDetail(data){
 	var html = '';
 	html += '<img src="' + floor.parameter + '" class="map__body__bg" id="map"/>';
 
+	var materialType = [];
+
 	$.each(material, function(i, item){
-		var info = '{"name":"' + item.name + '","validTime":' + item.validTime + ',"duty":"' + item.duty + '","check":"' + item.check_name + '","lastTime":"' + item.lastTime + '", "lastCheck":"' + item.check_name + '", "type": "' + item.type + '"}',
+		if(materialType.indexOf(item.type) == -1){ //数组去重
+			materialType.push(item.type);
+		}
+
+		var info = '{"name":"' + item.name + '","validTime":' + item.validTime + ',"duty":"' + item.duty + '","check":"' + item.check_name + '","lastTime":"' + item.lastTime + '", "lastCheck":"' + item.last_check_name + '", "type": "' + item.type + '"}',
 			className = 'iconfont Pa map__icon map__icon__' + item.type,
 			style = 'left: ' + item.xposition + '; top: ' + item.yposition;
-			icon = getIcon(item.type);
+			icon = getMaterialIcon(item.type);
 		if(!item.ifchecked) className += ' undetected';
 		if(!item.ifvalid) className += ' invalid';
 		html +="<i class='" + className + "' style='" + style + "' data-message='" + info + "'>" + icon + "</i>";
 	})
 	$('.map__body').html(html);
+	updateFilter(materialType);
 }
 
 /**
- * 获取对应的iconfont图标
- * @param type 图标类型
+ * 获取设备对应的iconfont图标
+ * @param type 设备类型
  */
-function getIcon(type){
+function getMaterialIcon(type){
 	switch(+type){
 	case 1:
 		return '&#xe673;';
@@ -132,6 +145,30 @@ function getIcon(type){
 		break;
 	case 5:
 		return '&#xe726;';
+		break;
+	}
+}
+
+/**
+ * 获取对应的设备名称
+ * @param type 设备类型
+ */
+function getMaterialName(type){
+	switch(+type){
+	case 1:
+		return '手推式灭火器';
+		break;
+	case 2:
+		return '手提式灭火器';
+		break;
+	case 3:
+		return '消防栓';
+		break;
+	case 4:
+		return '报警按钮';
+		break;
+	case 5:
+		return '进水栓';
 		break;
 	}
 }
@@ -209,4 +246,48 @@ $('.map').on('click','.map__icon',function(){
 		shadeClose: true, //开启遮罩关闭
 		content: layerHtml
 	});
+})
+
+
+/**
+ * 更新面包屑导航中的楼层信息
+ * @param {any} floorName 楼层名称
+ */
+function updateCrumbs(floorName){
+	$('.map__top__name i').html(floorName);
+}
+
+/**
+ * 更新顶部设备筛选
+ * @param {any} materialType 设备类型列表
+ */
+function updateFilter(materialType){
+	$('.map__top__filter .map__top__filter__btn').remove();
+	var html = '';
+	$.each(materialType, function(i, item){
+		var icon = getMaterialIcon(item); //获取对应图标；
+		var name = getMaterialName(item); //获取对应设备名称；
+		html += '<span class="map__top__filter__btn act" data-type="' + item + '">' +
+				'<i class="iconfont">' + icon + '</i>' + name + '</span>';
+	})
+	$('.map__top__filter').append(html);
+	updateMaterialTotal();
+}
+
+/**
+ * 获取设备总数
+ **/
+function updateMaterialTotal(){
+	var total = $('.map__icon:visible').length;
+	var undetected = $('.map__icon.undetected:visible').length;
+	var invalid = $('.map__icon.invalid:visible').length;
+	var str = '共有' + total + '个设备：有效' + (total - undetected - invalid) + '个，未检' + undetected + '个，失效' + invalid + '个';
+	$('.map__top__filter__total').html(str);
+}
+
+$('.map__top__filter').on('click', '.map__top__filter__btn', function(){
+	var type = $(this).data('type');
+	$(this).toggleClass('act');
+	$('.map__icon__' + type).toggleClass('hide');
+	updateMaterialTotal();
 })

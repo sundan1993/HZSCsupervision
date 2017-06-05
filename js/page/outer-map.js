@@ -146,16 +146,16 @@ function getMaterialName(type){
 	}
 }
 
-//根据时间戳获取时间
+//根据Unix时间戳获取时间
 function format(timestamp){
-	var time = new Date(timestamp);
+	var time = new Date(timestamp*1000);
 	var y = time.getFullYear();
 	var m = time.getMonth()+1;
 	var d = time.getDate();
 	var h = time.getHours();
 	var mm = time.getMinutes();
 	var s = time.getSeconds();
-	return y + '年' + (m + 1) + '月' + d + '日';
+	return y + '年' + m + '月' + d + '日';
 }
 
 $('.map').on('mouseover','.map__icon',function(){
@@ -180,7 +180,7 @@ $('.map').on('click','.map__icon',function(){
 	type = msg.type;
 	
 	lastTime = lastTime;
-	validTime = format(validTime*1000);
+	validTime = format(validTime);
 	var imgUrl;
 	switch(type){
 	case '1':

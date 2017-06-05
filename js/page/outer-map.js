@@ -1,3 +1,4 @@
+//初始化左侧列表
 $.ajax({
 	type : "get",
 	url : "http://huhuajian.pe.hu/public/index.php/index/index/get_left_list",
@@ -8,10 +9,6 @@ $.ajax({
 	success: function(data){
 		if (data.code == 1){
 			assemblyLeftNav(data.data);
-			//初始化楼层设备
-			var initFloorId = window.location.href.match(/\?id=(\d*)/)[1];
-			var initChildFloorId = $('#'+ initFloorId).siblings('.left-nav__item__list').find('a').eq(0).attr('id');
-			getFloorDetail(initChildFloorId);
 		} else {
 			alert('请刷新页面重试');
 		}
@@ -21,8 +18,24 @@ $.ajax({
 	}
 });
 
-//默认楼层
-
+//初始化右侧设备
+$.ajax({
+	type : "get",
+	url : "http://huhuajian.pe.hu/public/index.php/index/index/get_index_list",
+	dataType : "jsonp",
+	jsonp: "callback",
+	jsonpCallback:"l",
+	success: function(data){
+		if (data.code == 1){
+			assemblyFloorDetail(data.data);
+		} else {
+			alert('请刷新页面重试');
+		}
+	},
+	error:function(){
+		alert('请刷新页面重试');
+	}
+});
 
 /**
  * 拼装左侧导航结构
@@ -30,16 +43,10 @@ $.ajax({
  */
 function assemblyLeftNav(data){
 	var html = '';
-	var initFloorId = window.location.href.match(/\?id=(\d*)/)[1];
 	$.each(data, function(i, item){
-		if (item.floorid == initFloorId){	//进入页面时默认选中
-			html += '<li class="left-nav__item act">'+
-					'<a href="#" class="Pr" id="' + item.floorid + '">' + item.name;
-		} else {
-			html += '<li class="left-nav__item">'+
-					'<a href="#" class="Pr" id="' + item.floorid + '">' + item.name;
-		}
-		html += '<i class="iconfont Pa">&#xe640;</i></a>';
+		html += '<li class="left-nav__item">'+
+				'<a href="#" class="Pr" id="' + item.floorid + '">' + item.name +
+				'<i class="iconfont Pa">&#xe640;</i></a>';
 
 		if(item.son.length){ //若有下一级
 			html += '<ul class="left-nav__item__list">';
@@ -62,64 +69,20 @@ function assemblyLeftNav(data){
 $('#left-nav').on('click', 'a', function(e){
 	e.preventDefault();
 	var $target = $(e.target), $parent = $target.parent();
-	if ($parent.hasClass('act')) return; //防止频繁发送请求
-
-	if ($parent.hasClass('left-nav__item')){ //当选择父级菜单时,若有子菜单，则重定向至第一个子级
-		$parent.addClass('act').siblings().removeClass('act');
-		var $child = $parent.find('.left-nav__item__list li');
-		if ($child){
-			$child.eq(0).addClass('act').siblings().removeClass('act');
-			$target = $child.eq(0).children();
-		}
-	} else { //选择子菜单时
-		$parent.addClass('act').siblings().removeClass('act');
-	}
-
 	var id = $target.attr('id');
-	var name = $target.text();
-	getFloorDetail(id);
-	$.goTop();
+	window.location.href = './inner-map.html?id=' + id;
 });
 
-/**
- * 获取右侧楼层详细信息
- * @param {number} floorid 楼层id
- */
-function getFloorDetail(floorid){
-	$.ajax({
-		type : "get",
-		url : "http://huhuajian.pe.hu/public/index.php/index/index/get_floor_detail",
-		data: {floorid: floorid},
-		dataType : "jsonp",
-		jsonp: "callback",
-		jsonpCallback:"l",
-		success: function(data){
-			if (data.code == 1){
-				assemblyFloorDetail(data.data);
-				console.log('开始拼装楼层数据')
-			} else {
-				alert('请刷新页面重试');
-			}
-		},
-		error:function(){
-			alert('请刷新页面重试');
-		}
-	});
-}
 
 /**
  * 拼装右侧楼层详情
  * @param {any} data 楼层详情数据
  */
 function assemblyFloorDetail(data){
-	var floor = data.floor, material = data.material;
-	$('.map__body').html('');
 	var html = '';
-	html += '<img src="' + floor.parameter + '" class="map__body__bg" id="map"/>';
-
 	var materialType = [];
 
-	$.each(material, function(i, item){
+	$.each(data, function(i, item){
 		if(materialType.indexOf(item.type) == -1){ //数组去重
 			materialType.push(item.type);
 		}
@@ -132,9 +95,8 @@ function assemblyFloorDetail(data){
 		if(!item.ifvalid) className += ' invalid';
 		html +="<i class='" + className + "' style='" + style + "' data-message='" + info + "'>" + icon + "</i>";
 	})
-	$('.map__body').html(html);
+	$('.map__body').append(html);
 	updateFilter(materialType);
-	updateCrumbs(floor.name);
 }
 
 /**
@@ -262,14 +224,6 @@ $('.map').on('click','.map__icon',function(){
 
 
 /**
- * 更新面包屑导航中的楼层信息
- * @param {any} floorName 楼层名称
- */
-function updateCrumbs(floorName){
-	$('.map__top__name i').html(floorName);
-}
-
-/**
  * 更新顶部设备筛选
  * @param {any} materialType 设备类型列表
  */
@@ -319,24 +273,3 @@ function scrollNav(){
 }
 scrollNav();
 $(window).bind('resize scroll',scrollNav);
-
-//动效回到顶部
-$.goTop=function(s){
-	s=s||0;
-	if(s<0)s=0;
-	var t=$(window).scrollTop();
-	if(t>s){ //向上
-		t=parseInt(t-(t*0.3+2));
-		if(t<s)t=s;
-		$(window).scrollTop(t);
-	}else if(t<s){ //向下
-		t=parseInt(t+(t*0.3+2));
-		if(t>s)t=s;
-		$(window).scrollTop(t);
-	};
-	if(t!=s){
-		setTimeout(function(){
-			$.goTop(s);
-		},40);
-	};
-};

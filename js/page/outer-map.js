@@ -59,7 +59,6 @@ function assemblyLeftNav(data){
 			})
 			html +='</ul>';
 		}
-
 		html += '</li>';
 	})
 	$('#left-nav').prepend(html);
@@ -181,7 +180,7 @@ $('.map').on('click','.map__icon',function(){
 	type = msg.type;
 	
 	lastTime = lastTime;
-	validTime = format(validTime);
+	validTime = format(validTime*1000);
 	var imgUrl;
 	switch(type){
 	case '1':

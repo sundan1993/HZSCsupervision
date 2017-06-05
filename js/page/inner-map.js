@@ -9,7 +9,8 @@ $.ajax({
 		if (data.code == 1){
 			assemblyLeftNav(data.data);
 			//初始化楼层设备
-			var initFloorId = window.location.href.match(/\?id=(\d*)/)[1];
+			var initFloor = window.location.href.match(/\?id=(\d*)/);
+			var initFloorId = initFloor? initFloor[1]: 1;
 			var initChildFloorId = $('#'+ initFloorId).siblings('.left-nav__item__list').find('a').eq(0).attr('id');
 			getFloorDetail(initChildFloorId);
 		} else {
@@ -21,16 +22,14 @@ $.ajax({
 	}
 });
 
-//默认楼层
-
-
 /**
  * 拼装左侧导航结构
  * @param {obj} data 左侧导航数据
  */
 function assemblyLeftNav(data){
 	var html = '';
-	var initFloorId = window.location.href.match(/\?id=(\d*)/)[1];
+	var initFloor = window.location.href.match(/\?id=(\d*)/);
+	var initFloorId = initFloor? initFloor[1]: 1;
 	$.each(data, function(i, item){
 		if (item.floorid == initFloorId){	//进入页面时默认选中
 			html += '<li class="left-nav__item act">'+
@@ -52,7 +51,6 @@ function assemblyLeftNav(data){
 			})
 			html +='</ul>';
 		}
-
 		html += '</li>';
 	})
 	$('#left-nav').prepend(html);
@@ -219,7 +217,7 @@ $('.map').on('click','.map__icon',function(){
 	type = msg.type;
 	
 	lastTime = lastTime;
-	validTime = format(validTime);
+	validTime = format(validTime*1000);
 	var imgUrl;
 	switch(type){
 	case '1':

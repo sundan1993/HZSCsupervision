@@ -1,0 +1,261 @@
+<html> 
+<head> 
+<title>设备列表</title> 
+<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="jquery.PrintArea.js"></script>
+
+<style> 
+table { 
+border-collapse: collapse; 
+border: 1px solid #FFFFFF; 
+} 
+table td { 
+text-align: center; 
+height: 30px; 
+font-size: 12px; 
+line-height: 30px; 
+border: 1px solid #efecec; 
+} 
+</style> 
+</head> 
+<body> 
+
+<div>
+区域：
+  <select class="selectpicker" id='select_zones'>
+    <option value=''>全部</option>
+  </select>
+  
+  <br/>设备名称：
+<input type='text' id='sbname' />
+<br/>设备类别：
+<select id='select_type'>
+<option value=''>全部</option>
+<option value='1'>手推式灭火器</option>
+<option value='2'>手提式灭火器</option>
+<option value='3'>消防栓</option>
+<option value='4'>报警按钮</option>
+<option value='5'>进水栓</option>
+</select>
+<br/>负责人员：
+<input type='text' id='sbduty' />
+<br/>检查人员：
+<input type='text' id='sbcheckname' />
+<br/>最后一次检查人员：
+<input type='text' id='sblastcheckname' />
+<br/>最后一次巡检时间：
+<input type='text' id='sblasttime_start' placeholder="2017-01-01"/>---<input type='text' id='sblasttime_end' placeholder="2017-01-02"/>
+<!-- 普通搜索（6个条件 -->
+
+<!-- 高级搜索（全部条件） -->
+<br/>启用时间：
+<input type='text' id='sbstarttime_start' placeholder="2017-01-01"/>---<input type='text' id='sbstarttime_end' placeholder="2017-01-02"/>
+
+<br/>有效期：
+<input type='text' id='sbvalidtime_start' placeholder="2017-01-01"/>---<input type='text' id='sbvalidtime_end' placeholder="2017-01-02"/>
+
+<br/>设备维保期：
+<input type='text' id='sbservicetime_start' placeholder="2017-01-01"/>---<input type='text' id='sbservicetime_end' placeholder="2017-01-02"/>
+<br/>是否在维保期：
+<select id='sbifinservice'>
+<option value=''>全部</option>
+<option value='1'>在保</option>
+<option value='2'>出保</option>
+</select>
+<br/>维保厂家：
+<input type='text' id='sbvender' />
+<br/>维保联系人：
+<input type='text' id='sbservicename' />
+<br/><button onclick='getlist(false);'>搜索按钮</button>
+<br/><input id="btnPrint" type="button" value="打印文本区域"></input> 
+
+</div>
+
+<div class="widget-content padded clearfix" id="myPrintArea"> 
+	<table class="table table-bordered table-striped" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto"> 
+		<thead> 
+			<th><input id="checkAll" type="checkbox" onclick="CheckAll(this.checked);"/>全选</th> 
+			<th>名称</th> 
+			<th>负责人</th> 
+			<th>检查人</th> 
+			<th>有效期</th> 
+			<th>最后检查时间</th> 
+			<th>是否在有效期</th> 
+			<th>操作</th> 
+		</thead> 
+		
+		<tbody id='list'> 
+		</tbody> 
+	</table> 
+	<button onclick="getchk();">批量编辑</button>
+	<input id='testarr' />
+	<button onclick="gettest();">编辑页取值</button>
+</div> 
+</body> 
+
+<script>
+$(document).ready(function() { 
+	getlist(true);
+	getzones();
+	//var v = parseUrl();//解析所有参数
+	//alert(v['id']);//就是你要的结果
+});
+
+$("#btnPrint").click(function(){    
+	$("#myPrintArea").printArea();  
+}); 
+
+
+function getzones(){
+	$.ajax({
+	    type: "post",
+	    url: "http://huhuajian.pe.hu/public/index.php/index/index/get_left_list",
+	    dataType: "jsonp",
+	    jsonp: "callback",
+	    jsonpCallback: "h",
+	    success: function(data) {
+	        for (var i = 0; i < data.data.length; i++) {
+	            document.getElementById("select_zones").options.add(new Option(data.data[i].name,data.data[i].floorid));
+	            if(data.data[i].son != ''){
+	            	for(var j = 0; j < data.data[i].son.length; j++){
+		            	document.getElementById("select_zones").options.add(new Option(data.data[i].son[j].name,data.data[i].son[j].floorid));
+	            	}
+	            }
+	        }
+	        //console.log(data);
+	    },
+	    error: function() {
+	        alert('fail');
+	    }
+	});	
+}
+
+
+function getlist(tag){
+	var data = '';
+	
+	if(!tag){
+		$("#list").empty();
+		var select_zones = $('#select_zones').val();
+		var select_type = $('#select_type').val();
+		var sbname = $('#sbname').val();
+		var sbduty = $('#sbduty').val();
+		var sbcheckname = $('#sbcheckname').val();
+		var sblastcheckname = $('#sblastcheckname').val();
+		var sblasttime_start = $('#sblasttime_start').val();
+		var sblasttime_end = $('#sblasttime_end').val();
+		var sbstarttime_start = $('#sbstarttime_start').val();
+		var sbstarttime_end = $('#sbstarttime_end').val();
+		var sbvalidtime_start = $('#sbvalidtime_start').val();
+		var sbvalidtime_end = $('#sbvalidtime_end').val();
+		var sbservicetime_start = $('#sbservicetime_start').val();
+		var sbservicetime_end = $('#sbservicetime_end').val();
+		var sbifinservice = $('#sbifinservice').val();
+		var sbvender = $('#sbvender').val();
+		var sbservicename = $('#sbservicename').val();
+		data = {select_zones:select_zones,select_type:select_type,sbname:sbname,sbduty:sbduty,
+				sbcheckname:sbcheckname,sblastcheckname:sblastcheckname,sblasttime_start:sblasttime_start,
+				sblasttime_end:sblasttime_end,sbstarttime_start:sbstarttime_start,sbstarttime_end:sbstarttime_end,
+				sbvalidtime_start:sbvalidtime_start,sbvalidtime_end:sbvalidtime_end,sbservicetime_start:sbservicetime_start,
+				sbservicetime_end:sbservicetime_end,sbifinservice:sbifinservice,sbvender:sbvender,sbservicename:sbservicename};
+		}
+	
+	$.ajax({
+	    type: "post",
+	    url: "http://huhuajian.pe.hu/public/index.php/index/reports/get_sblist",
+	    dataType: "jsonp",
+	    jsonp: "callback",
+	    jsonpCallback: "hh",
+	    data:data,
+	    success: function(data) {
+	        for (var i = 0; i < data.data.length; i++) {
+	        	var html =  "<tr>"+
+							"<td>"+
+							"<input name='chkJob' type='checkbox' value='"+data.data[i].id+"'/>"+
+							"</td>"+
+							"<td>"+
+							data.data[i].name+
+							"</td>"+
+							"<td>"+
+							data.data[i].duty+
+							"</td>"+
+							"<td>"+
+							data.data[i].check_name+
+							"</td>"+
+							"<td>"+
+							data.data[i].validTime+
+							"</td>"+
+							"<td>"+
+							data.data[i].lastTime+
+							"</td>"+
+							"<td>"+
+							data.data[i].ifvalid+
+							"</td>"+
+							"<td>"+
+								"<button onclick='doedit("+data.data[i].id+")'>"+
+								'编辑'+
+								"</button>"+
+							"</td>"+
+						"</tr>";
+				$("#list").append(html);
+	        }
+	        console.log(data);
+	    },
+	    error: function() {
+	        alert('fail');
+	    }
+	});	
+}
+
+function doedit(id){
+	var editurl = 'sbedit.html?sbid='+id;
+	window.open(editurl);  
+}
+
+function parseUrl(){
+    var url=location.href;
+    var i=url.indexOf('?');
+    if(i==-1)return;
+    var querystr=url.substr(i+1);
+    var arr1=querystr.split('&');
+    var arr2=new Object();
+    for  (i in arr1){
+        var ta=arr1[i].split('=');
+        arr2[ta[0]]=ta[1];
+    }
+    return arr2;
+}
+
+</script>
+
+<script type="text/javascript">
+ function CheckAll(val) { 
+	 $("input[name='chkJob']").each(function() { 
+	 	this.checked = val; 
+	 }); 
+ } 
+ 
+function getchk(){ //jquery获取复选框值 
+	var chk_value =[]; 
+	$('input[name="chkJob"]:checked').each(function(){ 
+		chk_value.push($(this).val()); 
+	}); 
+	var editurl = 'sbeditall.html?sbid='+chk_value;
+	window.open(editurl);  
+	
+	
+	//$('#testarr').val(chk_value);//带到编辑页面去
+	//alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value); 
+} 
+
+function gettest(){
+	var ttt = $('#testarr').val();
+	console.log(ttt);
+	//alert(ttt);
+}
+ </script>
+
+
+</html>

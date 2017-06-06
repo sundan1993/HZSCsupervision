@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>批量编辑</title>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+有效期、负责人员、检查人员、最后一次巡检时间、设备维保期、是否在保修期、维保厂家、维保联系人、维保联系电话、备注
+
+<br/>
+<br/>
+设备名称：<span id='sbname'></span><br/><br/>
+<!-- 设备id： --><input type='hidden' id='sbid'/><br/><br/>
+有效期：<input type='text' id='validtime'/>*必填<br/><br/>
+负责人员：<input type='text' id='duty'/>*必填<br/><br/>
+检查人员：<input type='text' id='checkname'/>*必填<br/><br/>
+最后一次巡检时间：<input type='text' id='lasttime'/>*必填<br/><br/>
+最后巡检人：<input type='text' id='lastcheckname'/>*必填<br/><br/>
+设备维保期：<input type='text' id='servicetime'/>*必填<br/><br/>
+维保厂家：<input type='text' id='sbvender'/>*必填<br/><br/>
+维保联系人：<input type='text' id='servicename'/>*必填<br/><br/>
+备注：<input type='text' id='remarks'/><br/><br/>
+<button onclick="doedit();">修改按钮</button>
+</body>
+<script>
+
+$(document).ready(function() { 
+	var v = parseUrl();//解析所有参数
+	$('#sbid').val(v['sbid']);
+});
+
+
+function doedit(){
+	
+	var shebeiid = $('#sbid').val();
+	var validtime = $('#validtime').val();
+	var duty = $('#duty').val();
+	var checkname = $('#checkname').val();
+	var lasttime = $('#lasttime').val();
+	var servicetime = $('#servicetime').val();
+	var sbvender = $('#sbvender').val();
+	var servicename = $('#servicename').val();
+	var lastcheckname = $('#lastcheckname').val();
+	var remarks = $('#remarks').val();
+	
+	$.ajax({
+	    type: "post",
+	    url: "http://huhuajian.pe.hu/public/index.php/index/index/edit_all_material",
+	    dataType: "jsonp",
+	    jsonp: "callback",
+	    jsonpCallback: "h",
+	    data:{shebeiid:shebeiid,validTime:validtime,duty:duty,check_name:checkname,lastTime:lasttime,
+	    	servicetime:servicetime,servicevender:sbvender,servicename:servicename,
+	    	last_check_name:lastcheckname,remarks:remarks
+	    },
+	    success: function(data) {
+	    	alert(data.message);
+	    	if(data.code == 1){
+	    		getinfo(data.data.id);
+	    	}
+	        console.log(data);
+	    },
+	    error: function() {
+	        alert('服务器繁忙，请稍后再试。');
+	    }
+	});
+}
+
+
+function parseUrl(){
+    var url=location.href;
+    var i=url.indexOf('?');
+    if(i==-1)return;
+    var querystr=url.substr(i+1);
+    var arr1=querystr.split('&');
+    var arr2=new Object();
+    for  (i in arr1){
+        var ta=arr1[i].split('=');
+        arr2[ta[0]]=ta[1];
+    }
+    return arr2;
+}
+</script>
+
+</html>

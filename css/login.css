@@ -48,3 +48,79 @@ select.form-control option{
 	color: #fff;
 	cursor: pointer;
 }
+
+#sbedit-box{
+	margin-bottom: 50px;
+	position: absolute;
+	width: 500px;
+	background: #fff;
+	top: 50px;
+	left: 50%;
+	margin-left: -250px;
+	border-top: 1px solid #08C552;
+}
+#sbedit-box .box{
+	padding: 50px;
+}
+
+.form-label{
+	width: 30%;
+	text-align: right;
+	margin-right: 2%;
+	color: #999;
+}
+
+.form-control-half{
+	width: 60%!important;
+	margin-top:0!important;
+}
+.form-row{
+	margin-top: 20px;
+	position: relative;
+}
+.form-must-icon{
+	position: absolute;
+	right: 10px;
+	top: 0;
+	color: #ea4235;
+}
+
+#myPrintArea{
+	background: #fff;
+}
+
+#filter-box{
+	margin: 20px 0;
+	background: #eee;
+	padding: 10px 10px 80px;
+	position: relative;
+}
+#filter-box .row{
+	margin-top: 10px;
+}
+
+#filter-box .form-btn{
+	background-image: linear-gradient(to right, #08c552, #14cb9d);
+	width: 100px;
+	line-height: 36px;
+	display: inline-block;
+	margin-top: 20px;
+	text-align: center;
+	font-size: 14px;
+	color: #fff;
+	cursor: pointer;
+	border: 0;
+}
+#filter-box .filter_bottom{
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	width: 98%;
+}
+#filter-box .filter_bottom .more{
+	color: #08c552;
+	position: absolute;
+	right: 20px;
+	top: 26px;
+	cursor: pointer;
+}

@@ -1,7 +1,12 @@
-<html> 
-<head> 
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
 <title>设备列表</title> 
+
 <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/common.css"/>
+<link rel="stylesheet" type="text/css" href="css/login.css">
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="jquery.PrintArea.js"></script>
@@ -21,59 +26,100 @@ border: 1px solid #efecec;
 </style> 
 </head> 
 <body> 
+	<div id="banner"></div>
+	<div id="top-nav">
+		<div class="Rw">
+			<img src="img/logo.png"/>
+			<ul class="top-nav__list Fr">
+				<li><a href="#">公司简介</a></li>
+				<li><a href="#">新闻发布</a></li>
+				<li><a href="#">消控地图</a></li>
+				<li><a href="http://192.168.10.10">监控平台</a></li>
+				<li><a href="#">三轮车管理</a></li>
+				<li><a href="#" class="act">员工登陆</a></li>
+			</ul>
+		</div>
+	</div>
 
-<div>
-区域：
-  <select class="selectpicker" id='select_zones'>
-    <option value=''>全部</option>
-  </select>
-  
-  <br/>设备名称：
-<input type='text' id='sbname' />
-<br/>设备类别：
-<select id='select_type'>
-<option value=''>全部</option>
-<option value='1'>手推式灭火器</option>
-<option value='2'>手提式灭火器</option>
-<option value='3'>消防栓</option>
-<option value='4'>报警按钮</option>
-<option value='5'>进水栓</option>
-</select>
-<br/>负责人员：
-<input type='text' id='sbduty' />
-<br/>检查人员：
-<input type='text' id='sbcheckname' />
-<br/>最后一次检查人员：
-<input type='text' id='sblastcheckname' />
-<br/>最后一次巡检时间：
-<input type='text' id='sblasttime_start' placeholder="2017-01-01"/>---<input type='text' id='sblasttime_end' placeholder="2017-01-02"/>
-<!-- 普通搜索（6个条件 -->
+	<div class="Rw">
+		<section id="filter-box">
+			<div class="filter-box__normal">
+				<div class="row">
+					<div class="col-md-3">
+						区域 
+							<select class="selectpicker" id='select_zones'>
+								<option value=''>全部</option>
+							</select>
+					</div>
+					<div class="col-md-3">
+						设备名称 
+						<input type='text' id='sbname' />
+					</div>
+					<div class="col-md-3">
+						设备类别 
+						<select id='select_type'>
+							<option value=''>全部</option>
+							<option value='1'>手推式灭火器</option>
+							<option value='2'>手提式灭火器</option>
+							<option value='3'>消防栓</option>
+							<option value='4'>报警按钮</option>
+							<option value='5'>进水栓</option>
+						</select>
+					</div>
+					<div class="col-md-3">
+						负责人员 <input type='text' id='sbduty' />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						检查人员 <input type='text' id='sbcheckname' />
+					</div>
+					<div class="col-md-3">
+						最后巡检人 <input type='text' id='sblastcheckname'/>
+					</div>
+					<div class="col-md-6">
+						最后巡检时间 <input type='text' id='sblasttime_start' placeholder="2017-01-01"/>---<input type='text' id='sblasttime_end' placeholder="2017-01-02"/>
+					</div>
+				</div>
+			</div>
+			
+			<div class="filter-box__senior" style="display:none">
+				<div class="row">
+					<div class="col-md-6">
+						启用时间 <input type='text' id='sbstarttime_start' placeholder="2017-01-01"/>---<input type='text' id='sbstarttime_end' placeholder="2017-01-02"/>
+					</div>
+					<div class="col-md-6">
+						有效期 <input type='text' id='sbvalidtime_start' placeholder="2017-01-01"/>---<input type='text' id='sbvalidtime_end' placeholder="2017-01-02"/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						设备维保期 <input type='text' id='sbservicetime_start' placeholder="2017-01-01"/>---<input type='text' id='sbvalidtime_end' placeholder="2017-01-02"/>
+					</div>
+					<div class="col-md-3">
+						是否在维保期 
+						<select id='sbifinservice'>
+							<option value=''>全部</option>
+							<option value='1'>在保</option>
+							<option value='2'>出保</option>
+						</select>
+					</div>
+					<div class="col-md-3">
+						维保厂家
+						<input type='text' id='sbvender' />
+					</div>
+				</div>
+			</div>
 
-<!-- 高级搜索（全部条件） -->
-<br/>启用时间：
-<input type='text' id='sbstarttime_start' placeholder="2017-01-01"/>---<input type='text' id='sbstarttime_end' placeholder="2017-01-02"/>
+			<div class="filter_bottom">
+				<button onclick='getlist(false);' class="form-btn">搜索按钮</button>
+				<input id="btnPrint" type="button" value="打印文本区域" class="form-btn"></input>
+				<span class="more" data-switch="0">展开高级筛选</span>
+			</div>
+		</section>
+	</div>
 
-<br/>有效期：
-<input type='text' id='sbvalidtime_start' placeholder="2017-01-01"/>---<input type='text' id='sbvalidtime_end' placeholder="2017-01-02"/>
-
-<br/>设备维保期：
-<input type='text' id='sbservicetime_start' placeholder="2017-01-01"/>---<input type='text' id='sbservicetime_end' placeholder="2017-01-02"/>
-<br/>是否在维保期：
-<select id='sbifinservice'>
-<option value=''>全部</option>
-<option value='1'>在保</option>
-<option value='2'>出保</option>
-</select>
-<br/>维保厂家：
-<input type='text' id='sbvender' />
-<br/>维保联系人：
-<input type='text' id='sbservicename' />
-<br/><button onclick='getlist(false);'>搜索按钮</button>
-<br/><input id="btnPrint" type="button" value="打印文本区域"></input> 
-
-</div>
-
-<div class="widget-content padded clearfix" id="myPrintArea"> 
+<div class="widget-content padded clearfix Rw" id="myPrintArea"> 
 	<table class="table table-bordered table-striped" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto"> 
 		<thead> 
 			<th><input id="checkAll" type="checkbox" onclick="CheckAll(this.checked);"/>全选</th> 
@@ -97,6 +143,19 @@ border: 1px solid #efecec;
 
 <script>
 $(document).ready(function() { 
+	//展开高级筛选
+	$('#filter-box .filter_bottom .more').click(function(){
+		var moreSwitch = $(this).data('switch');
+		if (moreSwitch == 0) {
+			$(this).data('switch',1);
+			$(this).html('收起高级筛选');
+		} else {
+			$(this).data('switch',0);
+			$(this).html('展开高级筛选');
+		};
+		$('.filter-box__senior').toggle();
+	})
+
 	getlist(true);
 	getzones();
 	//var v = parseUrl();//解析所有参数

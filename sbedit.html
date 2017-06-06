@@ -3,26 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <title>单个编辑</title>
+<link rel="stylesheet" type="text/css" href="css/common.css"/>
+<link rel="stylesheet" type="text/css" href="css/login.css">
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 </head>
 <body>
-有效期、负责人员、检查人员、最后一次巡检时间、设备维保期、是否在保修期、维保厂家、维保联系人、维保联系电话、备注
+	<div id="banner"></div>
+	<div id="top-nav">
+		<div class="Rw">
+			<img src="img/logo.png"/>
+			<ul class="top-nav__list Fr">
+				<li><a href="#">公司简介</a></li>
+				<li><a href="#">新闻发布</a></li>
+				<li><a href="#">消控地图</a></li>
+				<li><a href="http://192.168.10.10">监控平台</a></li>
+				<li><a href="#">三轮车管理</a></li>
+				<li><a href="#" class="act">员工登陆</a></li>
+			</ul>
+		</div>
+	</div>
 
-<br/>
-<br/>
-设备名称：<span id='sbname'></span><br/><br/>
-设备所在区域：<span id='sbregion'></span><br/><br/>
-<!-- 设备id： --><input type='hidden' id='sbid'/><br/><br/>
-有效期：<input type='text' id='validtime'/>*必填<br/><br/>
-负责人员：<input type='text' id='duty'/>*必填<br/><br/>
-检查人员：<input type='text' id='checkname'/>*必填<br/><br/>
-最后一次巡检时间：<input type='text' id='lasttime'/>*必填<br/><br/>
-最后巡检人：<input type='text' id='lastcheckname'/>*必填<br/><br/>
-设备维保期：<input type='text' id='servicetime'/>*必填<br/><br/>
-维保厂家：<input type='text' id='sbvender'/>*必填<br/><br/>
-维保联系人：<input type='text' id='servicename'/>*必填<br/><br/>
-备注：<input type='text' id='remarks'/><br/><br/>
-<button onclick="doedit();">修改按钮</button>
+	<div class="Rw">
+		<section id="sbedit-box">
+			<div class="box">
+				<h1 class='form-title'>编辑设备</h1>
+				<!--设备id-->
+				<input type='hidden' id='sbid'/>
+				<ul class="sbedit-form">
+					<li class="form-row">
+						<label class="form-label">设备名称</label>
+						<span id='sbname'>lalalallalala</span>
+						
+					</li>
+					<li class="form-row">
+						<label class="form-label">设备所在区域</label>
+						<span id='sbregion'>lalalallalala</span>
+					</li>
+					<li class="form-row">
+						<label class="form-label">有效期</label>
+						<input type='text' id='validtime' class="form-control form-control-half"/>
+						<i class="form-must-icon">*</i>
+					</li>
+					<li class="form-row">
+						<label class="form-label">负责人员</label>
+						<input type='text' id='duty' class="form-control form-control-half"/>
+						<i class="form-must-icon">*</i>
+					</li>
+					<li class="form-row">
+						<label class="form-label">检查人员</label>
+						<input type='text' id='checkname' class="form-control form-control-half"/>
+						<i class="form-must-icon">*</i>
+					</li>
+					<li class="form-row">
+						<label class="form-label">最后巡检时间</label>
+						<input type='text' id='lasttime' class="form-control form-control-half"/>
+						<i class="form-must-icon">*</i>
+					</li>
+					<li class="form-row">
+						<label class="form-label">最后巡检人</label>
+						<input type='text' id='lastcheckname' class="form-control form-control-half"/>
+						<i class="form-must-icon">*</i>
+					</li>
+					<li class="form-row">
+						<label class="form-label">设备维保期</label>
+						<input type='text' id='servicetime' class="form-control form-control-half"/>
+						<i class="form-must-icon">*</i>
+					</li>
+					<li class="form-row">
+						<label class="form-label">维保厂家</label>
+						<input type='text' id='sbvender' class="form-control form-control-half"/>
+						<i class="form-must-icon">*</i>
+					</li>
+					<li class="form-row">
+						<label class="form-label">维保联系人</label>
+						<input type='text' id='servicename' class="form-control form-control-half"/>
+						<i class="form-must-icon">*</i>
+					</li>
+					<li class="form-row">
+						<label class="form-label">备注</label>
+						<input type='text' id='remarks' class="form-control form-control-half"/>
+					</li>
+				</ul>
+				<button class='form-btn' onclick='doedit();'>确认修改</button>
+			</div>
+		</section>
+	</div>
 </body>
 <script>
 

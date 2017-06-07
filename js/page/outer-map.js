@@ -24,6 +24,7 @@ $.ajax({
 	url : "http://huhuajian.pe.hu/public/index.php/index/index/get_index_list",
 	dataType : "jsonp",
 	jsonp: "callback",
+	data: {floorid: -1},
 	jsonpCallback:"l",
 	success: function(data){
 		if (data.code == 1){

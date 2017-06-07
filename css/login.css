@@ -2,18 +2,27 @@
 	height: 200px;
 }
 
-#login-box{
+#login-box, #glyedit-box{
 	position: absolute;
 	width: 500px;
 	background: #fff;
 	top: 50px;
 	left: 50%;
 	margin-left: -250px;
+	margin-bottom: 50px;
 	border-top: 1px solid #08C552;
 }
 #login-box .box{
 	padding: 50px 80px 80px;
 }
+#glyedit-box .box{
+	text-align: center;
+	padding: 50px 80px 50px;
+}
+#glyedit-box .box:last-child{
+	padding: 0 80px 50px;
+}
+
 input.form-control{
 	/*padding: 10px 20px;*/
 	height: 40px;
@@ -123,4 +132,21 @@ select.form-control option{
 	right: 20px;
 	top: 26px;
 	cursor: pointer;
+}
+
+.form-btn-sm{
+	background-image: linear-gradient(to right, #08c552, #14cb9d);
+	width: 100px;
+	line-height: 36px;
+	display: inline-block;
+	margin-top: 20px;
+	text-align: center;
+	font-size: 14px;
+	color: #fff;
+	cursor: pointer;
+	border: 0;
+}
+
+#glyedit-box #roles{
+	margin-top: 20px;
 }

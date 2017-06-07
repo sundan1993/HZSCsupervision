@@ -261,7 +261,7 @@ $('.map__top__filter').on('click', '.map__top__filter__btn', function(){
 function scrollNav(){
 	var scroll=$(window).scrollTop();//当前滚动条滚动的距离
 	var Top=scroll+$(window).height();//真正文档滚动的高度
-
+	if(Top > $('html').height()) return;
 	if (scroll>=400) {   //顶部距离的高度400
 		$('#top-nav').addClass('srcoll');
 		$('#left-nav').css('top',scroll- 400 + 50 +'px');

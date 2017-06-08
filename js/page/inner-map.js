@@ -11,8 +11,8 @@ $.ajax({
 			//初始化楼层设备
 			var initFloor = window.location.href.match(/\?id=(\d*)/);
 			var initFloorId = initFloor? initFloor[1]: 1;
-			var initChildFloorId = $('#'+ initFloorId).siblings('.left-nav__item__list').find('a').eq(0).attr('id');
-			getFloorDetail(initChildFloorId);
+			var initChildFloorId = $('#'+ initFloorId).siblings('.left-nav__item__list').find('a').eq(0).attr('id') || initFloorId;
+			getFloorDetail(initChildFloorId) //默认取第一个子级，若没有子级则判定直接进入当前级;
 		} else {
 			alert('请刷新页面重试');
 		}
@@ -30,6 +30,7 @@ function assemblyLeftNav(data){
 	var html = '';
 	var initFloor = window.location.href.match(/\?id=(\d*)/);
 	var initFloorId = initFloor? initFloor[1]: 1;
+	var parentActIndex = null; //只有当直接进入子页面时，parentActIndex才有值
 	$.each(data, function(i, item){
 		if (item.floorid == initFloorId){	//进入页面时默认选中
 			html += '<li class="left-nav__item act">'+
@@ -40,13 +41,27 @@ function assemblyLeftNav(data){
 		}
 		html += '<i class="iconfont Pa">&#xe640;</i></a>';
 
-		if(item.son.length){ //若有下一级
+		if(item.son.length){ //若有子级
+			var actSonIndex = $.map(item.son, function(item, i){ //查找是否为直接进入子页面
+				return item.floorid == initFloorId? i: null;
+			})
+			if(actSonIndex.length){ //直接进入子页面时,parentActIndex父级被选中
+				parentActIndex = i;
+			}
 			html += '<ul class="left-nav__item__list">';
 			$.each(item.son, function(i, item){
-				if (i == 0){	//第一层默认被选中
-					html += '<li class="act"><a href="#" id="' + item.floorid + '">' + item.name + '</a></li>'
-				} else {
-					html += '<li><a href="#" id="' + item.floorid + '">' + item.name + '</a></li>'
+				if(!actSonIndex.length){
+					if (i == 0){	//第一层默认被选中
+						html += '<li class="act"><a href="#" id="' + item.floorid + '">' + item.name + '</a></li>'
+					} else {
+						html += '<li><a href="#" id="' + item.floorid + '">' + item.name + '</a></li>'
+					}
+				} else { //直接进入子页面
+					if(i == actSonIndex){ //子页面默认被选中
+						html += '<li class="act"><a href="#" id="' + item.floorid + '">' + item.name + '</a></li>'
+					} else {
+						html += '<li><a href="#" id="' + item.floorid + '">' + item.name + '</a></li>'
+					}
 				}
 			})
 			html +='</ul>';
@@ -54,6 +69,9 @@ function assemblyLeftNav(data){
 		html += '</li>';
 	})
 	$('#left-nav').prepend(html);
+	if(parentActIndex){ //直接进入子页面时,parentActIndex父级被选中
+		$('#left-nav .left-nav__item').eq(parentActIndex).addClass('act'); 
+	}
 };
 
 // 左侧导航栏绑定点击事件
@@ -62,19 +80,17 @@ $('#left-nav').on('click', 'a', function(e){
 	var $target = $(e.target), $parent = $target.parent();
 	if ($parent.hasClass('act')) return; //防止频繁发送请求
 
-	if ($parent.hasClass('left-nav__item')){ //当选择父级菜单时,若有子菜单，则重定向至第一个子级
+	if ($parent.hasClass('left-nav__item')){ //当选择父级菜单
 		$parent.addClass('act').siblings().removeClass('act');
 		var $child = $parent.find('.left-nav__item__list li');
-		if ($child){
+		if ($child.length){ //若有子菜单，则重定向至第一个子级
 			$child.eq(0).addClass('act').siblings().removeClass('act');
 			$target = $child.eq(0).children();
 		}
 	} else { //选择子菜单时
 		$parent.addClass('act').siblings().removeClass('act');
 	}
-
 	var id = $target.attr('id');
-	var name = $target.text();
 	getFloorDetail(id);
 	$.goTop();
 });
@@ -131,8 +147,8 @@ function assemblyFloorDetail(data){
 		html +="<i class='" + className + "' style='" + style + "' data-message='" + info + "'>" + icon + "</i>";
 	})
 	$('.map__body').html(html);
-	updateFilter(materialType);
-	updateCrumbs(floor.name);
+	updateFilter(materialType); //更新设备筛选
+	updateCrumbs(floor.name); //更新面包屑导航信息
 }
 
 /**

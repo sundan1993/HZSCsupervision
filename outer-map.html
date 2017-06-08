@@ -88,94 +88,76 @@
 				<img src="img/map2.png" class="map__body__bg" id="map"/>
 
 				<div class="map-market Pa">
-					<div class="map-market__item map-market__item1" data-num='{"total":20,"undetected":1,"invalid":0}'>
+					<div class="map-market__item map-market__item1" id="floor3">
 						<p>办公楼c楼</p>
-						<a href="mapC-1.html" class="map-market__item__link">点击进入</a>
 					</div>
 
 					<div class="map-market__item map-market__item2">
 						<p>西面营业房</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item3">
+					<div class="map-market__item map-market__item3" id="floor110">
 						<p>10号棚</p>
-						<!--<a href="detail.html" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item4">
+					<div class="map-market__item map-market__item4" id="floor108">
 						<p>8号棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
 					<div class="map-market__item map-market__item5">
 						<p>南瓜棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item6" data-num='{"total":20,"undetected":0,"invalid":2}'>
+					<div class="map-market__item map-market__item6" id="floor4">
 						<p>结算中心</p>
-						<a href="mapJ.html" class="map-market__item__link">点击进入</a>
 					</div>
 
-					<div class="map-market__item map-market__item7">
+					<div class="map-market__item map-market__item7" id="floor106">
 						<p>6号棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item8">
+					<div class="map-market__item map-market__item8" id="floor104">
 						<p>4号棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item9">
+					<div class="map-market__item map-market__item9" id="floor102">
 						<p>2号棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item10">
+					<div class="map-market__item map-market__item10" id="floor109">
 						<p>9号棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item11">
+					<div class="map-market__item map-market__item11" id="floor107">
 						<p>7号棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item12">
+					<div class="map-market__item map-market__item12" id="floor105">
 						<p>5号棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item13">
+					<div class="map-market__item map-market__item13" id="floor103">
 						<p>3号棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item14">
+					<div class="map-market__item map-market__item14" id="floor101">
 						<p>1号棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item15">
+					<div class="map-market__item map-market__item15" id="floor2">
 						<p>冷库B楼</p>
-						<a href="mapB-1.html" class="map-market__item__link">点击进入</a>
 					</div>
 
-					<div class="map-market__item map-market__item16">
+					<div class="map-market__item map-market__item16" id="floor1">
 						<p>冷库A楼</p>
-						<a href="mapA-1.html" class="map-market__item__link">点击进入</a>
 					</div>
 
-					<div class="map-market__item map-market__item17">
+					<div class="map-market__item map-market__item17" id="floor5">
 						<p>停车棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 
-					<div class="map-market__item map-market__item18">
+					<div class="map-market__item map-market__item18" id="floor6">
 						<p>停车棚</p>
-						<!--<a href="#" class="map-market__item__link">点击进入</a>-->
 					</div>
 				</div>
 
@@ -191,28 +173,6 @@
 	<script src="libs/jquery-2.1.4.min.js"></script>
 	<script src="plugins/layer-v3.0.3/layer/layer.js"></script>
 	<script src="./js/page/outer-map.js"></script>
-	<script type="text/javascript">
-		//渲染每幢大楼设备状态
-		$('.map-market__item').each(function(i, item){
-			var item = $(item);
-			var num = item.data('num');
-			var str = '';
-			if(num){
-				if(num.undetected){
-					item.addClass('undetected');
-					str += '未检数' + num.undetected + '个 ';
-				}
-				if(num.invalid){
-					item.addClass('invalid');
-					str += '失效数' + num.invalid + '个 ';
-				}
-				if(str){
-					var html = '<span class="map-market__item__num">' + str + '</span>';
-				}
-			}
-			item.append(html);
-		})
 
-	</script>
 </body>
 </html>

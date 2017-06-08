@@ -38,6 +38,67 @@ $.ajax({
 	}
 });
 
+//初始化各个楼楼内设备情况
+$.ajax({
+	type : "get",
+	url : "http://huhuajian.pe.hu/public/index.php/index/index/get_out_num",
+	dataType : "jsonp",
+	jsonp: "callback",
+	jsonpCallback:"n",
+	success: function(data){
+		if (data.code == 1){
+			assemblyBuildDetail(data.data);
+		} else {
+			alert('请刷新页面重试');
+		}
+	},
+	error:function(){
+		alert('请刷新页面重试');
+	}
+});
+
+/**
+ * 拼装右侧楼内设备情况
+ * @param {any} data 楼内设备数据
+ */
+function assemblyBuildDetail(data){
+	$.each(data, function(i, item){
+		var $target = $('#floor' + item.floorid);
+		$target.append('<a href="#" class="map-market__item__link">点击进入</a>');
+		var num = {};
+		if(item.nocheck){
+			num.undetected = item.nocheck;
+		}
+		if(item.outvalid){
+			num.invalid = item.outvalid;
+		}
+		if(item.nocheck || item.outvalid){
+			$target.attr('data-num', JSON.stringify(num));
+		}
+	})
+
+	//渲染每幢大楼设备状态
+	$('.map-market__item').each(function(i, item){
+		var item = $(item);
+		var num = item.data('num');
+		var str = '';
+		if(num){
+			if(num.undetected){
+				item.addClass('undetected');
+				str += '未检数' + num.undetected + '个 ';
+			}
+			if(num.invalid){
+				item.addClass('invalid');
+				str += '失效数' + num.invalid + '个 ';
+			}
+			if(str){
+				var html = '<span class="map-market__item__num">' + str + '</span>';
+			}
+		}
+		item.append(html);
+	})
+}
+
 /**
  * 拼装左侧导航结构
  * @param {obj} data 左侧导航数据
@@ -73,6 +134,13 @@ $('#left-nav').on('click', 'a', function(e){
 	window.location.href = './inner-map.html?id=' + id;
 });
 
+//右侧大楼绑定点击事件
+$('.map-market').on('click', '.map-market__item a', function(e){
+	e.preventDefault();
+	var $target = $(e.target), $parent = $target.parent();
+	var id = $parent.attr('id').match(/floor(\d*)/)[1];
+	window.location.href = './inner-map.html?id=' + id;
+});
 
 /**
  * 拼装右侧楼层详情

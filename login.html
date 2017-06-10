@@ -12,26 +12,34 @@
 		<div class="Rw">
 			<img src="img/logo.png"/>
 			<ul class="top-nav__list Fr">
-				<li><a href="#">公司简介</a></li>
-				<li><a href="#">新闻发布</a></li>
-				<li><a href="#">消控地图</a></li>
-				<li><a href="http://192.168.10.10">监控平台</a></li>
-				<li><a href="#">三轮车管理</a></li>
-				<li><a href="#" class="act">员工登陆</a></li>
+				<li><a href="outer-map.html">返回首页</a></li>
+				<li><a href="sblist.html">设备列表</a></li>
+				<li><a href="editgly.html">编辑管理员</a></li>
+				<!-- <li><a href="#">消控地图</a></li> -->
+				<li><a href="login.html" class="act">员工登陆</a></li>
+				<li><a onclick="dologout();">退出登录</a></li>
 			</ul>
 		</div>
 	</div>
 	<div class="Rw">
 		<section id="login-box">
-			<div class="box">
+		
+			<div class="box" id='welcome'>
+				<h1 class='form-title'>欢迎您：<span id='uname'></span></h1>
+				<h1 class='form-title'>登录时间：<span id='logintime'></span></h1>
+			</div>
+		
+			<div class="box" id='nologin'>
 				<h1 class='form-title'>用户登录</h1>
 				<input id='username' class='form-control' type='text' placeholder="账号"/>
 				<input id='userpassword' class='form-control' type='password' placeholder="密码"/>
 				<button class='form-btn' onclick='dologin();'>登录按钮</button>
 
+				<!-- 
 				<select class="form-control">
 					<option value="请选择">请选择</option>
 				</select>
+				 -->
 			</div>
 		</section>
 	</div>
@@ -39,4 +47,76 @@
 <script src="libs/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="plugins/layer-v3.0.3/layer/layer.js" type="text/javascript" charset="utf-8"></script>
 </body>
+
+<script language="javascript">
+
+$(document).ready(function() { 
+	$('#welcome').hide();
+	$.ajax({
+	    type: "post",
+	    url: "http://huhuajian.pe.hu/public/index.php/index/login/get_session",
+	    dataType: "jsonp",
+	    jsonp: "callback",
+	    jsonpCallback: "ges",
+	    success: function(data) {
+	    	if(data.code == 1){
+	    		$('#uname').html(data.data.username);
+	    		$('#logintime').html(getLocalTime(data.data.login_time));
+	    		$('#welcome').show();
+	    		$('#nologin').hide();
+	    	}else{
+	    		return;
+	    	}
+	    },
+	    error: function() {
+	    }
+	});	
+});
+function getLocalTime(nS) {     
+   return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
+}
+
+function dologin(){
+	var username = $('#username').val();
+	var password = $('#userpassword').val();
+	$.ajax({
+	    type: "post",
+	    url: "http://huhuajian.pe.hu/public/index.php/index/login/dologin",
+	    dataType: "jsonp",
+	    jsonp: "callback",
+	    data:{username:username,password:password},
+	    jsonpCallback: "login",
+	    success: function(data) {
+	    	
+	    	alert(data.message);
+	    	
+	    	if(data.code == 1){
+	    		window.location.href="sblist.html" 
+	    	}else{
+	    		return;
+	    	}
+	    },
+	    error: function() {
+	    	alert('服务器繁忙，请稍后再试。');
+	    }
+	});	
+}
+
+function dologout(){
+	$.ajax({
+	    type : "post",
+	    url : "http://huhuajian.pe.hu/public/index.php/index/login/logout",
+	    dataType : "jsonp",
+	    jsonp: "callback",
+	    jsonpCallback:"logout",
+	    success : function(data){
+	        alert(data.message);
+	    },
+	    error:function(){
+	    	alert('服务器繁忙，请稍后再试。');
+	    }
+	});
+}
+
+</script>
 </html>

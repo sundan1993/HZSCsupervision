@@ -13,12 +13,12 @@
 		<div class="Rw">
 			<img src="img/logo.png"/>
 			<ul class="top-nav__list Fr">
-				<li><a href="#">公司简介</a></li>
-				<li><a href="#">新闻发布</a></li>
-				<li><a href="#">消控地图</a></li>
-				<li><a href="http://192.168.10.10">监控平台</a></li>
-				<li><a href="#">三轮车管理</a></li>
-				<li><a href="#" class="act">员工登陆</a></li>
+				<li><a href="outer-map.html">返回首页</a></li>
+				<li><a href="sblist.html">设备列表</a></li>
+				<li><a href="editgly.html">编辑管理员</a></li>
+				<li><a href="#" class="act">编辑设备</a></li>
+				<li><a href="login.html">员工登陆</a></li>
+				<li><a onclick="dologout();">退出登录</a></li>
 			</ul>
 		</div>
 	</div>
@@ -104,7 +104,7 @@ function getinfo(sbid){
 	    url: "http://huhuajian.pe.hu/public/index.php/index/reports/getsbinfobyid",
 	    dataType: "jsonp",
 	    jsonp: "callback",
-	    jsonpCallback: "h",
+	    jsonpCallback: "gei",
 	    data:{sbid:sbid},
 	    success: function(data) {
 	    	$('#sbname').html(data.data.name);
@@ -121,7 +121,7 @@ function getinfo(sbid){
 	        //console.log(data);
 	    },
 	    error: function() {
-	        alert('fail');
+	    	alert('服务器繁忙，请稍后再试。');
 	    }
 	});	
 }
@@ -155,6 +155,7 @@ function doedit(){
 	    	if(data.code == 1){
 	    		getinfo(data.data.id);
 	    	}
+	    	location.reload(); 
 	        console.log(data);
 	    },
 	    error: function() {
@@ -176,6 +177,23 @@ function parseUrl(){
         arr2[ta[0]]=ta[1];
     }
     return arr2;
+}
+
+
+function dologout(){
+	$.ajax({
+	    type : "post",
+	    url : "http://huhuajian.pe.hu/public/index.php/index/login/logout",
+	    dataType : "jsonp",
+	    jsonp: "callback",
+	    jsonpCallback:"logout",
+	    success : function(data){
+	        alert(data.message);
+	    },
+	    error:function(){
+	    	alert('服务器繁忙，请稍后再试。');
+	    }
+	});
 }
 </script>
 

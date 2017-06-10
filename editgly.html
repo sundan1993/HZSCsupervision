@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>编辑管理员</title>
 <link rel="stylesheet" type="text/css" href="css/common.css"/>
 <link rel="stylesheet" type="text/css" href="css/login.css">
 <script typet="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
@@ -13,12 +13,11 @@
 		<div class="Rw">
 			<img src="img/logo.png"/>
 			<ul class="top-nav__list Fr">
-				<li><a href="#">公司简介</a></li>
-				<li><a href="#">新闻发布</a></li>
-				<li><a href="#">消控地图</a></li>
-				<li><a href="http://192.168.10.10">监控平台</a></li>
-				<li><a href="#">三轮车管理</a></li>
-				<li><a href="#" class="act">员工登陆</a></li>
+				<li><a href="outer-map.html">返回首页</a></li>
+				<li><a href="sblist.html">设备列表</a></li>
+				<li><a href="editgly.html" class="act">编辑管理员</a></li>
+				<li><a href="login.html">员工登陆</a></li>
+				<li><a onclick="dologout();">退出登录</a></li>
 			</ul>
 		</div>
 	</div>
@@ -65,7 +64,7 @@ $(function(){
 	    url: "http://huhuajian.pe.hu/public/index.php/index/login/get_admin_list",
 	    dataType: "jsonp",
 	    jsonp: "callback",
-	    jsonpCallback: "h",
+	    jsonpCallback: "hel",
 	    success: function(data) {
 	        for (var i = 0; i < data.data.length; i++) {
 	            document.getElementById("select1").options.add(new Option(data.data[i].username + '-' + data.data[i].real_name, data.data[i].id))
@@ -73,46 +72,10 @@ $(function(){
 	        console.log(data)
 	    },
 	    error: function() {
-	        alert('fail')
+	    	alert('服务器繁忙，请稍后再试。');
 	    }
 	});	
 }); 
-
-function dologin(){
-	var username = $('#username').val();
-	var password = $('#userpassword').val();
-	$.ajax({
-	    type : "post",
-	    url : "http://huhuajian.pe.hu/public/index.php/index/login/dologin",
-	    dataType : "jsonp",
-	    jsonp: "callback",
-	    jsonpCallback:"h",
-	    data:{username:username,password:password},
-	    success : function(data){
-	    	$('#loginadmin').html(data.data.username);
-	        alert(data.message);
-	    },
-	    error:function(){
-	    	alert('服务器繁忙，请稍后再试。');
-	    }
-	});
-}
-
-function dologout(){
-	$.ajax({
-	    type : "post",
-	    url : "http://huhuajian.pe.hu/public/index.php/index/login/logout",
-	    dataType : "jsonp",
-	    jsonp: "callback",
-	    jsonpCallback:"h",
-	    success : function(data){
-	        alert(data.message);
-	    },
-	    error:function(){
-	    	alert('服务器繁忙，请稍后再试。');
-	    }
-	});
-}
 
 function doadd(){
 	var username = $('#adminuser').val();
@@ -128,10 +91,11 @@ function doadd(){
 	    url : "http://huhuajian.pe.hu/public/index.php/index/login/addadmin",
 	    dataType : "jsonp",
 	    jsonp: "callback",
-	    jsonpCallback:"h",
+	    jsonpCallback:"adi",
 	    data:{adminuser:username,password:password,realname:realname},
 	    success : function(data){
 	        alert(data.message);
+	        location.reload(); 
 	    },
 	    error:function(){
 	    	alert('服务器繁忙，请稍后再试。');
@@ -157,7 +121,7 @@ function getvalue(obj){
 	    url : "http://huhuajian.pe.hu/public/index.php/index/login/get_admin_info",
 	    dataType : "jsonp",
 	    jsonp: "callback",
-	    jsonpCallback:"h",
+	    jsonpCallback:"gval",
 	    data:{id:adminid},
 	    success : function(data){
 	    	$("#roles").empty();
@@ -177,7 +141,7 @@ function getvalue(obj){
 	    	console.log(data);
 	    },
 	    error:function(){
-	        alert('fail');
+	    	alert('服务器繁忙，请稍后再试。');
 	    }
 	});
 }
@@ -194,10 +158,11 @@ function editrole(){
 	    url : "http://huhuajian.pe.hu/public/index.php/index/login/edit_role",
 	    dataType : "jsonp",
 	    jsonp: "callback",
-	    jsonpCallback:"h",
+	    jsonpCallback:"edr",
 	    data:{adminid:adminid,roles:chk_value},
 	    success : function(data){
 	        alert(data.message);
+	        location.reload(); 
 	    },
 	    error:function(){
 	    	alert('服务器繁忙，请稍后再试。');
@@ -206,14 +171,33 @@ function editrole(){
 }
 
 function dele(){
-	var adminid = $('#adminid').val();
+	if (confirm("你确定要删除该管理员吗？")){ 
+		var adminid = $('#adminid').val();
+		$.ajax({
+		    type : "post",
+		    url : "http://huhuajian.pe.hu/public/index.php/index/login/dele_admin",
+		    dataType : "jsonp",
+		    jsonp: "callback",
+		    jsonpCallback:"dela",
+		    data:{adminid:adminid},
+		    success : function(data){
+		        alert(data.message);
+		        location.reload(); 
+		    },
+		    error:function(){
+		    	alert('服务器繁忙，请稍后再试。');
+		    }
+		});
+	} 
+}
+
+function dologout(){
 	$.ajax({
 	    type : "post",
-	    url : "http://huhuajian.pe.hu/public/index.php/index/login/dele_admin",
+	    url : "http://huhuajian.pe.hu/public/index.php/index/login/logout",
 	    dataType : "jsonp",
 	    jsonp: "callback",
-	    jsonpCallback:"h",
-	    data:{adminid:adminid},
+	    jsonpCallback:"logout",
 	    success : function(data){
 	        alert(data.message);
 	    },

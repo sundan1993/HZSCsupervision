@@ -27,13 +27,14 @@
 			<div class="box" id='welcome'>
 				<h1 class='form-title'>欢迎您：<span id='uname'></span></h1>
 				<h1 class='form-title'>登录时间：<span id='logintime'></span></h1>
+				<h1 class='form-title' onclick='showlogs();'><a><font color="bule">查看操作日志</font></a></h1>
 			</div>
 		
 			<div class="box" id='nologin'>
 				<h1 class='form-title'>用户登录</h1>
 				<input id='username' class='form-control' type='text' placeholder="账号"/>
 				<input id='userpassword' class='form-control' type='password' placeholder="密码"/>
-				<button class='form-btn' onclick='dologin();'>登录按钮</button>
+				<button class='form-btn' onclick='dologin();'>登录</button>
 
 				<!-- 
 				<select class="form-control">
@@ -116,6 +117,10 @@ function dologout(){
 	    	alert('服务器繁忙，请稍后再试。');
 	    }
 	});
+}
+
+function showlogs(){
+	window.open('logs.html');  
 }
 
 </script>

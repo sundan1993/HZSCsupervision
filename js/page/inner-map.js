@@ -142,8 +142,9 @@ function assemblyFloorDetail(data){
 			className = 'iconfont Pa map__icon map__icon__' + item.type,
 			style = 'left: ' + item.xposition + '; top: ' + item.yposition;
 			icon = getMaterialIcon(item.type);
-		if(!item.ifchecked) className += ' undetected';
-		if(!item.ifvalid) className += ' invalid';
+		if(+item.ifchecked)className += ' undetected';
+		if(+item.ifvalid) className += ' invalid';
+		if(!+item.ifchecked && !+item.ifvalid) className += ' valid';
 		html +="<i class='" + className + "' style='" + style + "' data-message='" + info + "'>" + icon + "</i>";
 	})
 	$('.map__body').html(html);
@@ -157,7 +158,7 @@ function assemblyFloorDetail(data){
  */
 function getMaterialIcon(type){
 	switch(+type){
-	case 1:
+	case 1: 
 		return '&#xe673;';
 		break;
 	case 2:
@@ -307,7 +308,8 @@ function updateMaterialTotal(){
 	var total = $('.map__icon:visible').length;
 	var undetected = $('.map__icon.undetected:visible').length;
 	var invalid = $('.map__icon.invalid:visible').length;
-	var str = '共有' + total + '个设备：有效' + (total - undetected - invalid) + '个，未检' + undetected + '个，失效' + invalid + '个';
+	var valid = $('.map__icon.valid:visible').length;
+	var str = '共有' + total + '个设备：有效' + valid + '个，未检' + undetected + '个，失效' + invalid + '个';
 	$('.map__top__filter__total').html(str);
 }
 

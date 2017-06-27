@@ -48,6 +48,7 @@ select.form-control option{
 }
 .form-btn{
 	background-image: linear-gradient(to right, #08c552, #14cb9d);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#08c552', endColorstr='#14cb9d',GradientType=1 ); 
 	width: 100%;
 	line-height: 40px;
 	display: block;
@@ -110,6 +111,7 @@ select.form-control option{
 
 #filter-box .form-btn{
 	background-image: linear-gradient(to right, #08c552, #14cb9d);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#08c552', endColorstr='#14cb9d',GradientType=1 ); 
 	width: 100px;
 	line-height: 36px;
 	display: inline-block;
@@ -136,6 +138,7 @@ select.form-control option{
 
 .form-btn-sm{
 	background-image: linear-gradient(to right, #08c552, #14cb9d);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#08c552', endColorstr='#14cb9d',GradientType=1 ); 
 	width: 100px;
 	line-height: 36px;
 	display: inline-block;

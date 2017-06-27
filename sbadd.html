@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>单个编辑</title>
+<title>添加设备</title>
 <link rel="stylesheet" type="text/css" href="css/common.css"/>
 <link rel="stylesheet" type="text/css" href="css/login.css">
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
@@ -26,18 +26,27 @@
 	<div class="Rw">
 		<section id="sbedit-box">
 			<div class="box">
-				<h1 class='form-title'>编辑设备</h1>
-				<!--设备id-->
-				<input type='hidden' id='sbid'/>
+				<h1 class='form-title'>添加设备</h1>
 				<ul class="sbedit-form">
 					<li class="form-row">
-						<label class="form-label">设备名称</label>
-						<span id='sbname'>lalalallalala</span>
+						<label class="form-label">设备所在区域</label>
+						<select class="selectpicker" id='select_zones' onchange="gradeChange()">
+							<option value='-1'>外部设备</option>
+						</select>
+						<!-- <span id='sbregion'>lalalallalala</span> -->
 					</li>
 					<li class="form-row">
-						<label class="form-label">设备所在区域</label>
-						<span id='sbregion'>lalalallalala</span>
+						<label class="form-label">设备类型</label>
+							<select class="selectpicker" id='sbtype'>
+								<option value='1'>手推式灭火器</option>
+								<option value='2'>手提式灭火器</option>
+								<option value='3'>消防栓</option>
+								<option value='4'>报警按钮</option>
+								<option value='5'>进水栓</option>
+							</select>
 					</li>
+					地图url，调试完后设隐藏<input type='text' id='mapurl'/>
+					
 					<li class="form-row">
 						<label class="form-label">有效期</label>
 						<input type='text' id='validtime' class="form-control form-control-half"/>
@@ -82,8 +91,13 @@
 						<label class="form-label">备注</label>
 						<input type='text' id='remarks' class="form-control form-control-half"/>
 					</li>
+					<input type='hidden' id='xposition' /><!-- x坐标放这儿 -->
+					<input type='hidden' id='yposition' /><!-- y坐标放这儿 -->
+					<li class="form-row">
+						<button>选择设备位置</button>
+					</li>
 				</ul>
-				<button class='form-btn' onclick='doedit();'>确认修改</button>
+				<button class='form-btn' onclick='doadd();'>添加</button>
 			</div>
 		</section>
 	</div>
@@ -91,45 +105,75 @@
 <script>
 
 $(document).ready(function() { 
-	var v = parseUrl();//解析所有参数
-	$('#sbid').val(v['sbid']);
-	getinfo(v['sbid']);
-	//alert(v['sbid']);//就是你要的结果
-});
-
-
-function getinfo(sbid){
 	$.ajax({
 	    type: "post",
-	    url: "http://huhuajian.pe.hu/public/index.php/index/reports/getsbinfobyid",
+	    url: "http://huhuajian.pe.hu/public/index.php/index/index/get_son_list",
 	    dataType: "jsonp",
 	    jsonp: "callback",
-	    jsonpCallback: "gei",
-	    data:{sbid:sbid},
+	    jsonpCallback: "h",
 	    success: function(data) {
-	    	$('#sbname').html(data.data.name);
-	    	$('#sbregion').html(data.data.region);
-	    	$('#validtime').val(data.data.validTime);
-	    	$('#duty').val(data.data.duty);
-	    	$('#checkname').val(data.data.check_name);
-	    	$('#lasttime').val(data.data.lastTime);
-	    	$('#servicetime').val(data.data.servicetime);
-	    	$('#sbvender').val(data.data.servicevender);
-	    	$('#servicename').val(data.data.servicename);
-	    	$('#lastcheckname').val(data.data.last_check_name);
-	    	$('#remarks').val(data.data.remarks);
+	        for (var i = 0; i < data.data.length; i++) {
+	            document.getElementById("select_zones").options.add(new Option(data.data[i].name,data.data[i].floorid));
+	        }
 	        //console.log(data);
 	    },
 	    error: function() {
-	    	alert('服务器繁忙，请稍后再试。');
+	        alert('fail');
 	    }
 	});	
+	var grade = '-1';
+	$.ajax({
+ 	    type: "post",
+ 	    url: "http://huhuajian.pe.hu/public/index.php/index/index/get_mapurl",
+ 	    dataType: "jsonp",
+ 	    jsonp: "callback",
+ 	    data:{floorid:grade},
+ 	    jsonpCallback: "gurl",
+ 	    success: function(data) {
+ 	    	if(data.code == 1){
+ 	    		$('#mapurl').val(data.data.parameter);
+ 	    	}else{
+ 	    		alert(data.message);
+ 	    		return ;
+ 	    	}
+ 	    },
+ 	    error: function() {
+ 	        alert('fail');
+ 	    }
+ 	});
+	
+});
+
+function gradeChange(){
+	 var objS = document.getElementById("select_zones");
+     var grade = objS.options[objS.selectedIndex].value;
+     $.ajax({
+ 	    type: "post",
+ 	    url: "http://huhuajian.pe.hu/public/index.php/index/index/get_mapurl",
+ 	    dataType: "jsonp",
+ 	    jsonp: "callback",
+ 	    data:{floorid:grade},
+ 	    jsonpCallback: "gurl",
+ 	    success: function(data) {
+ 	    	if(data.code == 1){
+ 	    		$('#mapurl').val(data.data.parameter);
+ 	    	}else{
+ 	    		alert(data.message);
+ 	    		return ;
+ 	    	}
+ 	    	
+ 	        console.log(data);
+ 	    },
+ 	    error: function() {
+ 	        alert('fail');
+ 	    }
+ 	});
+     //alert(grade);
 }
 
-
-function doedit(){
-	
-	var shebeiid = $('#sbid').val();
+function doadd(){
+	var reid = $('#select_zones').val();
+	var sbtype = $('#sbtype').val();
 	var validtime = $('#validtime').val();
 	var duty = $('#duty').val();
 	var checkname = $('#checkname').val();
@@ -139,16 +183,19 @@ function doedit(){
 	var servicename = $('#servicename').val();
 	var lastcheckname = $('#lastcheckname').val();
 	var remarks = $('#remarks').val();
+	var xposition = $('#xposition').val();
+	var yposition = $('#yposition').val();
 	
 	$.ajax({
 	    type: "post",
-	    url: "http://huhuajian.pe.hu/public/index.php/index/index/edit_material",
+	    url: "http://huhuajian.pe.hu/public/index.php/index/index/add_material",
 	    dataType: "jsonp",
 	    jsonp: "callback",
-	    jsonpCallback: "h",
-	    data:{shebeiid:shebeiid,validTime:validtime,duty:duty,check_name:checkname,lastTime:lasttime,
+	    jsonpCallback: "doad",
+	    data:{reid:reid,validTime:validtime,duty:duty,check_name:checkname,lastTime:lasttime,
 	    	servicetime:servicetime,servicevender:sbvender,servicename:servicename,
-	    	last_check_name:lastcheckname,remarks:remarks
+	    	last_check_name:lastcheckname,remarks:remarks,xposition:xposition,yposition:yposition,
+	    	sbtype:sbtype
 	    },
 	    success: function(data) {
 	    	alert(data.message);
@@ -162,21 +209,6 @@ function doedit(){
 	        alert('服务器繁忙，请稍后再试。');
 	    }
 	});
-}
-
-
-function parseUrl(){
-    var url=location.href;
-    var i=url.indexOf('?');
-    if(i==-1)return;
-    var querystr=url.substr(i+1);
-    var arr1=querystr.split('&');
-    var arr2=new Object();
-    for  (i in arr1){
-        var ta=arr1[i].split('=');
-        arr2[ta[0]]=ta[1];
-    }
-    return arr2;
 }
 
 

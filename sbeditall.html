@@ -100,13 +100,12 @@ function doedit(){
 	var servicename = $('#servicename').val();
 	var lastcheckname = $('#lastcheckname').val();
 	var remarks = $('#remarks').val();
-	
 	$.ajax({
 	    type: "post",
 	    url: "http://huhuajian.pe.hu/public/index.php/index/index/edit_all_material",
 	    dataType: "jsonp",
 	    jsonp: "callback",
-	    jsonpCallback: "h",
+	    jsonpCallback: "editall",
 	    data:{shebeiid:shebeiid,validTime:validtime,duty:duty,check_name:checkname,lastTime:lasttime,
 	    	servicetime:servicetime,servicevender:sbvender,servicename:servicename,
 	    	last_check_name:lastcheckname,remarks:remarks

@@ -66,13 +66,13 @@ function assemblyBuildDetail(data){
 		var $target = $('#floor' + item.floorid);
 		$target.append('<a href="#" class="map-market__item__link">点击进入</a>');
 		var num = {};
-		if(item.nocheck){
+		if(+item.nocheck){
 			num.undetected = item.nocheck;
 		}
-		if(item.outvalid){
+		if(+item.outvalid){
 			num.invalid = item.outvalid;
 		}
-		if(item.nocheck || item.outvalid){
+		if(+item.nocheck || +item.outvalid){
 			$target.attr('data-num', JSON.stringify(num));
 		}
 	})

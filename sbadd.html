@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="css/common.css"/>
 <link rel="stylesheet" type="text/css" href="css/login.css">
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="plugins/layer-v3.0.3/layer/layer.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 	<div id="banner"></div>
@@ -94,7 +95,8 @@
 					<input type='hidden' id='xposition' /><!-- x坐标放这儿 -->
 					<input type='hidden' id='yposition' /><!-- y坐标放这儿 -->
 					<li class="form-row">
-						<button>选择设备位置</button>
+						<button id="pos-btn">选择设备位置</button>
+						<span id="pos-show"></span>
 					</li>
 				</ul>
 				<button class='form-btn' onclick='doadd();'>添加</button>
@@ -105,6 +107,38 @@
 <script>
 
 $(document).ready(function() { 
+	$('#pos-btn').click(function(){
+		// var mapurl = $('#mapurl').val();
+		var mapurl = 'http://huhuajian.pe.hu/public/static/img/mapA-1.png';
+		var map = '<img src="'+ mapurl +'" id="map">';
+		layer.open({
+			type: 1,
+			skin: 'layui-layer-demo', //样式类名
+			scrollbar: false,
+			area: ['960px', '80%'],
+			// maxWidth: 600,
+			title: '点击地图选择设备坐标',
+			offset: '10%',
+			anim: 2,
+			shadeClose: true, //开启遮罩关闭
+			content: map
+		});
+		$('#map').click(function(){
+			var result = $.position('map');
+			$('#pos-show').html('坐标为('+ result.left + ',' + result.top +')')
+			var index = layer.index; //获取当前弹层的索引号
+			layer.close(index); //关闭当前弹层
+		})
+	})
+
+	$.position = function(parentId){
+		var e = event || window.event;
+		var parentX = parseInt($('#'+ parentId).offset().left), parentY = parseInt($('#'+ parentId).offset().top);
+		var childX = e.pageX, childY = e.pageY;
+		var x = childX - parentX, y = childY - parentY;
+		return {'left': x, 'top': y}
+	}
+
 	$.ajax({
 	    type: "post",
 	    url: "http://huhuajian.pe.hu/public/index.php/index/index/get_son_list",
@@ -200,7 +234,6 @@ function doadd(){
 	    success: function(data) {
 	    	alert(data.message);
 	    	if(data.code == 1){
-	    		getinfo(data.data.id);
 	    	}
 	    	location.reload(); 
 	        console.log(data);

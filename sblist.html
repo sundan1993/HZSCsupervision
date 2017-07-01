@@ -10,6 +10,8 @@
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="jquery.PrintArea.js"></script>
+<script src="./plugins/jquery.pagination-1.2.1/jquery.pagination-1.2.1.js"></script>
+<link rel="stylesheet" href="./plugins/jquery.pagination-1.2.1/jquery.pagination.css">
 
 <style> 
 table { 
@@ -23,6 +25,15 @@ font-size: 12px;
 line-height: 30px; 
 border: 1px solid #efecec; 
 } 
+#list{
+	display: none;
+}
+#page1{
+	padding: 0 10px;
+}
+.m-pagination-page > li.active > a{
+	background: #08c552;
+}
 </style> 
 </head> 
 <body> 
@@ -41,6 +52,8 @@ border: 1px solid #efecec;
 			</ul>
 		</div>
 	</div>
+
+	
 
 	<div class="Rw">
 		<section id="filter-box">
@@ -142,13 +155,50 @@ border: 1px solid #efecec;
 		
 		<tbody id='list'> 
 		</tbody> 
+		<tbody id="list2">
+			
+		</tbody>
 	</table> 
 	<!-- 
 	<button onclick="getchk();">批量编辑</button>
 	<input id='testarr' />
 	<button onclick="gettest();">编辑页取值</button>
 	 -->
+	<div id="page1" class="m-pagination"></div>
 </div> 
+
+<script type="text/javascript">
+function listCallback(){
+	var tr = $('#list>tr');
+	var total = tr.length;
+	console.log(total)
+	$('#page1').empty().removeData('page');
+	$("#page1").page({
+		total: total,
+		firstBtnText: '首页',
+		lastBtnText: '尾页',
+		prevBtnText: '上一页',
+		nextBtnText: '下一页',
+		showInfo: true,
+		// showJump: true,
+		// jumpBtnText:'跳转',
+		showPageSizes: true,
+		infoFormat: '{start} ~ {end}条，共{total}条'
+	});
+	var html = $(tr.slice(1, 11));
+	$('#list2').html(html);
+	$('#page1').on('click','.m-pagination-page a', function(e){
+		console.log(1);
+		e = e || window.event;
+		var target = e.target || e.srcElement;
+		var index = $(target).data('page-index');
+		console.log(index);
+		var html = $(tr.slice(index*10+1, (index+1)*10+1));
+		$('#list2').html(html);
+	})
+}
+	
+</script>
 </body> 
 
 <script>
@@ -231,7 +281,7 @@ function getlist(tag){
 				sbservicetime_end:sbservicetime_end,sbifinservice:sbifinservice,sbvender:sbvender,sbservicename:sbservicename};
 		}
 	
-	console.log(data);
+	// console.log(data);
 	
 	$.ajax({
 	    type: "post",
@@ -276,6 +326,7 @@ function getlist(tag){
 				$("#list").append(html);
 	        }
 	        console.log(data);
+			listCallback();
 	    },
 	    error: function() {
 	        alert('fail');
